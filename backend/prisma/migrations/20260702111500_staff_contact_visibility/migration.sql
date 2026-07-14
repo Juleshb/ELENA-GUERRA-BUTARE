@@ -1,0 +1,2 @@
+ALTER TABLE "StaffMember"
+ADD COLUMN IF NOT EXISTS "publishContactInfo" BOOLEAN NOT NULL DEFAULT false;

@@ -1,0 +1,338 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role     @default(ADMIN)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SiteSettings {
+  id           String   @id @default("default")
+  schoolName   String   @default("School Huye")
+  tagline      String?
+  logoUrl      String?
+  heroTitle    String?
+  heroSubtitle String?
+  heroImageUrl String?
+  about        String?  @db.Text
+  mission      String?  @db.Text
+  vision       String?  @db.Text
+  address      String?
+  phone        String?
+  email        String?
+  facebook     String?
+  twitter      String?
+  instagram    String?
+  youtube      String?
+  updatedAt    DateTime @updatedAt
+}
+
+model Page {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  content   String   @db.Text
+  excerpt   String?
+  published Boolean  @default(false)
+  showInNav Boolean  @default(true)
+  navOrder  Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Post {
+  id          String      @id @default(cuid())
+  title       String
+  slug        String      @unique
+  excerpt     String?
+  content     String      @db.Text
+  coverImage  String?
+  published   Boolean     @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  images      PostImage[]
+}
+
+model PostImage {
+  id        String   @id @default(cuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  url       String
+  caption   String?
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([postId])
+}
+
+model Event {
+  id          String    @id @default(cuid())
+  title       String
+  description String?   @db.Text
+  location    String?
+  startDate   DateTime
+  endDate     DateTime?
+  published   Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model StaffMember {
+  id         String   @id @default(cuid())
+  name       String
+  role       String
+  department String?
+  email      String?
+  phone      String?
+  publishContactInfo Boolean @default(false)
+  facebook   String?
+  instagram  String?
+  twitter    String?
+  linkedin   String?
+  bio        String?  @db.Text
+  photoUrl   String?
+  order      Int      @default(0)
+  published  Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model GalleryImage {
+  id        String   @id @default(cuid())
+  title     String?
+  caption   String?
+  imageUrl  String
+  category  String?
+  order     Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model AdmissionProtocol {
+  id               String   @id @default("default")
+  intro            String?  @db.Text
+  overview         String?  @db.Text
+  applicationEmail String?
+  applicationPhone String?
+  officeHours      String?
+  deadlineNote     String?  @db.Text
+  published        Boolean  @default(true)
+  updatedAt        DateTime @updatedAt
+}
+
+model AdmissionStep {
+  id          String   @id @default(cuid())
+  stepNumber  Int
+  title       String
+  description String   @db.Text
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model AdmissionRequirement {
+  id          String   @id @default(cuid())
+  category    String
+  title       String
+  description String?  @db.Text
+  level       String?
+  order       Int      @default(0)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model AdmissionFee {
+  id          String   @id @default(cuid())
+  level       String
+  amount      String
+  description String?  @db.Text
+  order       Int      @default(0)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model AdmissionFaq {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String   @db.Text
+  order     Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum ApplicationStatus {
+  PENDING
+  UNDER_REVIEW
+  ACCEPTED
+  REJECTED
+  WAITLISTED
+}
+
+enum ApplicationLevel {
+  PRIMARY
+  ORDINARY_LEVEL
+  ADVANCED_LEVEL
+}
+
+model StudentApplication {
+  id                String            @id @default(cuid())
+  referenceNumber   String            @unique
+  studentFirstName  String
+  studentLastName   String
+  dateOfBirth       DateTime
+  gender            String?
+  nationality       String?
+  residenceStatus   String?
+  motherTongue      String?
+  previousStudentCode     String?
+  previousStudentCodeYear String?
+  previousSchoolCode      String?
+  previousSchoolCodeYear  String?
+  previousClassAttended   String?
+  classAppliedFor         String?
+  attendanceType    String?
+  country           String?
+  level             ApplicationLevel
+  province          String?
+  district          String?
+  sector            String?
+  cell              String?
+  village           String?
+  religion          String?
+  fundingSource     String?
+  fatherName        String?
+  fatherAlive       String?
+  fatherPhone       String?
+  fatherId          String?
+  fatherOccupation  String?           @db.Text
+  motherName        String?
+  motherAlive       String?
+  motherPhone       String?
+  motherId          String?
+  motherHomeAddress String?           @db.Text
+  motherOccupation  String?           @db.Text
+  guardianName      String?
+  guardianType      String?
+  guardianPhone     String?
+  guardianEmail     String?
+  guardianHomeAddress String?         @db.Text
+  guardianOccupation  String?         @db.Text
+  healthMedicalBackground String?     @db.Text
+  emergencyContactName    String?
+  emergencyContactPhone   String?
+  emergencyContactAddress String?     @db.Text
+  agreePhotoUse             Boolean   @default(false)
+  agreeFeesNonRefundable    Boolean   @default(false)
+  signatureName             String?
+  submittedAtLocation       String?   @default("HUYE")
+  currentGrade      String?
+  previousSchool    String?
+  parentName        String?
+  parentPhone       String
+  parentEmail       String?
+  parentRelation    String?
+  address           String?
+  additionalNotes   String?           @db.Text
+  birthCertificate  String?
+  reportCard        String?
+  studentPhoto      String?
+  paymentSlip       String?
+  status            ApplicationStatus @default(PENDING)
+  adminNotes        String?           @db.Text
+  reviewedAt        DateTime?
+  submittedAt       DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  statusLogs        ApplicationStatusLog[]
+}
+
+model ApplicationStatusLog {
+  id            String            @id @default(cuid())
+  applicationId String
+  application   StudentApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  status        ApplicationStatus
+  comment       String            @db.Text
+  adminName     String?
+  createdAt     DateTime          @default(now())
+}
+
+model ContactMessage {
+  id                         String               @id @default(cuid())
+  portalUserId               String?
+  portalUser                 PortalUser?          @relation(fields: [portalUserId], references: [id], onDelete: SetNull)
+  name                       String
+  email                      String
+  phone                      String?
+  subject                    String?
+  message                    String               @db.Text
+  read                       Boolean              @default(false)
+  confirmationSentAt         DateTime?
+  confirmationSmsSentAt      DateTime?
+  confirmationWhatsappSentAt DateTime?
+  createdAt                  DateTime             @default(now())
+  replies                    ContactMessageReply[]
+}
+
+enum ReplySenderType {
+  USER
+  ADMIN
+}
+
+enum OtpPurpose {
+  REGISTER
+  LOGIN
+}
+
+model PortalUser {
+  id              String          @id @default(cuid())
+  email           String          @unique
+  name            String
+  phone           String?
+  emailVerifiedAt DateTime?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  messages        ContactMessage[]
+}
+
+model EmailOtp {
+  id        String     @id @default(cuid())
+  email     String
+  codeHash  String
+  purpose   OtpPurpose
+  expiresAt DateTime
+  createdAt DateTime   @default(now())
+
+  @@index([email, purpose])
+}
+
+model ContactMessageReply {
+  id           String          @id @default(cuid())
+  messageId    String
+  message      ContactMessage  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  senderType   ReplySenderType @default(ADMIN)
+  body         String          @db.Text
+  adminName    String?
+  adminEmail   String?
+  emailSent    Boolean         @default(false)
+  smsSent      Boolean         @default(false)
+  whatsappSent Boolean         @default(false)
+  sentAt       DateTime        @default(now())
+}
