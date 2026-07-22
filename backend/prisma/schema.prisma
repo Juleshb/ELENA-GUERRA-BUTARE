@@ -22,24 +22,31 @@ model User {
 }
 
 model SiteSettings {
-  id           String   @id @default("default")
-  schoolName   String   @default("School Huye")
-  tagline      String?
-  logoUrl      String?
-  heroTitle    String?
-  heroSubtitle String?
-  heroImageUrl String?
-  about        String?  @db.Text
-  mission      String?  @db.Text
-  vision       String?  @db.Text
-  address      String?
-  phone        String?
-  email        String?
-  facebook     String?
-  twitter      String?
-  instagram    String?
-  youtube      String?
-  updatedAt    DateTime @updatedAt
+  id                      String   @id @default("default")
+  schoolName              String   @default("School Huye")
+  tagline                 String?
+  logoUrl                 String?
+  heroTitle               String?
+  heroSubtitle            String?
+  heroImageUrl            String?
+  about                   String?  @db.Text
+  mission                 String?  @db.Text
+  vision                  String?  @db.Text
+  schoolMotto             String?  @db.Text
+  historicalBackground    String?  @db.Text
+  principalMessage        String?  @db.Text
+  principalTitle          String?  @default("Headmistress")
+  motherElenaHistory      String?  @db.Text
+  directorMessage         String?  @db.Text
+  directorName            String?
+  address                 String?
+  phone                   String?
+  email                   String?
+  facebook                String?
+  twitter                 String?
+  instagram               String?
+  youtube                 String?
+  updatedAt               DateTime @updatedAt
 }
 
 model Page {

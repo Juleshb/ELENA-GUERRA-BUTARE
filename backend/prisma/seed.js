@@ -4,6 +4,7 @@ const { PrismaClient } = require('@prisma/client');
 const { PrismaPg } = require('@prisma/adapter-pg');
 const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
+const story = require('./schoolStoryContent');
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const adapter = new PrismaPg(pool);
@@ -29,13 +30,17 @@ async function main() {
     logoUrl: '/logo.jpg',
     heroTitle: 'C.S ELENA GUERRA',
     heroSubtitle: 'Esprit, garde-nous dans ton amour',
-    about:
-      'C.S Elena Guerra Butare is a Catholic school dedicated to academic excellence, spiritual growth, and character formation. We welcome learners who seek knowledge rooted in faith and service to the community.',
-    mission:
-      'To provide quality Catholic education that nurtures the whole person — mind, heart, and spirit — preparing students to serve God and society.',
-    vision:
-      'To be a leading school in Butare, recognized for faith, integrity, academic achievement, and community leadership.',
-    address: 'Butare, Huye District, Southern Province, Rwanda',
+    about: story.ABOUT_SHORT,
+    mission: story.MISSION,
+    vision: story.VISION,
+    schoolMotto: story.SCHOOL_MOTTO,
+    historicalBackground: story.HISTORICAL_BACKGROUND,
+    principalMessage: story.PRINCIPAL_MESSAGE,
+    principalTitle: 'Headmistress',
+    motherElenaHistory: story.MOTHER_ELENA_HISTORY,
+    directorMessage: story.DIRECTOR_MESSAGE,
+    directorName: 'MANIRAGABA Bernard',
+    address: 'Taba village, Butare cell, Ngoma sector, Huye district, Southern Province, Rwanda',
     phone: '+250 788 000 000',
     email: 'info@elenguerra.rw',
   };

@@ -5,6 +5,41 @@ const { normalizeSettings, resolveLogoUrl } = require('../lib/brand');
 
 const router = express.Router();
 
+const SETTINGS_FIELDS = [
+  'schoolName',
+  'tagline',
+  'logoUrl',
+  'heroTitle',
+  'heroSubtitle',
+  'heroImageUrl',
+  'about',
+  'mission',
+  'vision',
+  'schoolMotto',
+  'historicalBackground',
+  'principalMessage',
+  'principalTitle',
+  'motherElenaHistory',
+  'directorMessage',
+  'directorName',
+  'address',
+  'phone',
+  'email',
+  'facebook',
+  'twitter',
+  'instagram',
+  'youtube',
+];
+
+function pickSettings(body = {}) {
+  const data = {};
+  for (const key of SETTINGS_FIELDS) {
+    if (body[key] !== undefined) data[key] = body[key];
+  }
+  if (data.logoUrl !== undefined) data.logoUrl = resolveLogoUrl(data.logoUrl);
+  return data;
+}
+
 router.get('/', async (_req, res) => {
   try {
     let settings = await prisma.siteSettings.findUnique({ where: { id: 'default' } });
@@ -20,17 +55,11 @@ router.get('/', async (_req, res) => {
 
 router.put('/', authRequired, async (req, res) => {
   try {
+    const data = pickSettings(req.body);
     const settings = await prisma.siteSettings.upsert({
       where: { id: 'default' },
-      update: {
-        ...req.body,
-        logoUrl: resolveLogoUrl(req.body.logoUrl),
-      },
-      create: {
-        id: 'default',
-        ...req.body,
-        logoUrl: resolveLogoUrl(req.body.logoUrl),
-      },
+      update: data,
+      create: { id: 'default', ...data },
     });
     res.json(normalizeSettings(settings));
   } catch (err) {

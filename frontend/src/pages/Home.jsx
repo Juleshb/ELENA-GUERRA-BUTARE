@@ -10,13 +10,11 @@ import { resolveLogoUrl } from '../lib/brand';
 import {
   ArrowRight,
   BookOpen,
-  Calendar,
+  Cross,
   GraduationCap,
   Heart,
-  Mail,
   MapPin,
-  MessageCircle,
-  Phone,
+  Quote,
   School,
   Sparkles,
   Users,
@@ -180,6 +178,11 @@ export default function Home() {
   const schoolName = settings?.schoolName || 'C.S ELENA GUERRA';
   const location = settings?.tagline || 'BUTARE';
   const aboutPlain = settings?.about?.replace(/<[^>]*>/g, '') || '';
+  const historicalPreview =
+    settings?.historicalBackground?.replace(/<[^>]*>/g, '').trim() || aboutPlain;
+  const principalPreview = settings?.principalMessage?.replace(/<[^>]*>/g, '').trim() || '';
+  const motherElenaPreview = settings?.motherElenaHistory?.replace(/<[^>]*>/g, '').trim() || '';
+  const directorPreview = settings?.directorMessage?.replace(/<[^>]*>/g, '').trim() || '';
   const heroTitle = settings?.heroTitle || schoolName;
   const heroSubtitle = settings?.heroSubtitle || MOTTO;
 
@@ -441,94 +444,120 @@ export default function Home() {
         </div>
         <div className="rw-tricolor absolute top-0 left-0 right-0" />
         <div className="relative max-w-6xl mx-auto px-4 py-16 md:py-20">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            <Reveal variant="left">
-              <p className="text-rw-gold-400 font-bold text-xs uppercase tracking-[0.2em] mb-3">
-                Our story
-              </p>
-              <h2 className="text-3xl md:text-4xl font-bold text-white leading-tight">
-                A Catholic school in Butare dedicated to the whole person
-              </h2>
-              <p className="mt-6 text-blue-100 leading-relaxed">
-                {aboutPlain ||
-                  'C.S Elena Guerra Butare is a Catholic school dedicated to academic excellence, spiritual growth, and character formation. We welcome learners who seek knowledge rooted in faith and service to the community.'}
-              </p>
-              <div className="grid sm:grid-cols-2 gap-4 mt-8">
-                {settings?.mission && (
-                  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/10 transition-all duration-300 hover:bg-white/15 hover:-translate-y-0.5">
-                    <Heart size={20} className="text-brand-red-400 mb-2" />
-                    <p className="text-xs font-bold uppercase tracking-wide text-blue-200 mb-1">
-                      Mission
-                    </p>
-                    <p className="text-sm text-blue-50 line-clamp-4">{settings.mission}</p>
-                  </div>
-                )}
-                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/10 transition-all duration-300 hover:bg-white/15 hover:-translate-y-0.5">
-                  <Sparkles size={20} className="text-rw-gold-400 mb-2" />
-                  <p className="text-xs font-bold uppercase tracking-wide text-blue-200 mb-1">
-                    Location
-                  </p>
-                  <p className="text-sm text-blue-50">
-                    {settings?.address || 'Butare, Huye District, Southern Province, Rwanda'}
-                  </p>
-                </div>
-              </div>
-              <Button to="/about" variant="red" className="mt-8">
-                Find out more
-              </Button>
-            </Reveal>
-            <Reveal variant="right" delay={2} className="flex flex-col gap-4">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/15">
-                <div className="flex items-center gap-4">
-                  <img
-                    src={resolveLogoUrl(settings?.logoUrl)}
-                    alt=""
-                    className="w-20 h-20 object-contain bg-white/10 rounded-xl p-2"
-                  />
-                  <div>
-                    <p className="font-bold text-white text-lg">{schoolName}</p>
-                    <p className="text-brand-red-400 text-sm font-bold tracking-widest">{location}</p>
-                  </div>
-                </div>
-              </div>
-              <div className="grid sm:grid-cols-2 gap-4">
-                {settings?.email && (
-                  <a
-                    href={`mailto:${settings.email}`}
-                    className="flex items-center gap-3 bg-white rounded-xl p-4 text-rw-navy hover:shadow-lg transition card-hover"
-                  >
-                    <Mail size={20} className="text-rw-blue-600 shrink-0" />
-                    <span className="text-sm font-medium truncate">{settings.email}</span>
-                  </a>
-                )}
-                {settings?.phone && (
-                  <a
-                    href={`tel:${settings.phone}`}
-                    className="flex items-center gap-3 bg-white rounded-xl p-4 text-rw-navy hover:shadow-lg transition card-hover"
-                  >
-                    <Phone size={20} className="text-rw-blue-600 shrink-0" />
-                    <span className="text-sm font-medium">{settings.phone}</span>
-                  </a>
-                )}
+          <Reveal className="max-w-3xl mb-10">
+            <p className="text-rw-gold-400 font-bold text-xs uppercase tracking-[0.2em] mb-3">
+              Our story
+            </p>
+            <h2 className="text-3xl md:text-4xl font-bold text-white leading-tight">
+              SAINTE ELENA GUERRA
+            </h2>
+            <p className="mt-5 text-blue-100 leading-relaxed">
+              {historicalPreview
+                ? `${historicalPreview.slice(0, 280)}${historicalPreview.length > 280 ? '…' : ''}`
+                : 'C.S Elena Guerra Butare is a Catholic school dedicated to academic excellence, spiritual growth, and character formation.'}
+            </p>
+            <Link
+              to="/about#historical-background"
+              className="inline-flex items-center gap-2 mt-5 text-sm font-semibold text-white hover:text-rw-gold-400 transition group"
+            >
+              Read more about our history
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </Reveal>
+
+          <RevealGroup className="grid md:grid-cols-3 gap-5 mb-10">
+            {principalPreview && (
+              <article className="bg-white/10 backdrop-blur-sm rounded-2xl border border-white/15 p-5 flex flex-col">
+                <Quote size={20} className="text-rw-gold-400 mb-3" />
+                <p className="text-xs font-bold uppercase tracking-wide text-blue-200 mb-2">
+                  {settings?.principalTitle || 'Principal'} message
+                </p>
+                <p className="text-sm text-blue-50 leading-relaxed line-clamp-5 flex-1">
+                  {principalPreview}
+                </p>
                 <Link
-                  to="/events"
-                  className="flex items-center gap-3 bg-white rounded-xl p-4 text-rw-navy hover:shadow-lg transition card-hover sm:col-span-2"
+                  to="/about#principal-message"
+                  className="inline-flex items-center gap-1.5 mt-4 text-sm font-semibold text-white hover:text-rw-gold-400 transition"
                 >
-                  <Calendar size={20} className="text-brand-red-600 shrink-0" />
-                  <span className="text-sm font-medium">Calendar &amp; events</span>
-                  <ArrowRight size={16} className="ml-auto text-slate-400" />
+                  Read more <ArrowRight size={14} />
                 </Link>
+              </article>
+            )}
+            {motherElenaPreview && (
+              <article className="bg-white/10 backdrop-blur-sm rounded-2xl border border-white/15 p-5 flex flex-col">
+                <Cross size={20} className="text-brand-red-400 mb-3" />
+                <p className="text-xs font-bold uppercase tracking-wide text-blue-200 mb-2">
+                  Mother Elena Guerra
+                </p>
+                <p className="text-sm text-blue-50 leading-relaxed line-clamp-5 flex-1">
+                  {motherElenaPreview}
+                </p>
                 <Link
-                  to="/my-messages"
-                  className="flex items-center gap-3 bg-brand-red-600 rounded-xl p-4 text-white hover:bg-brand-red-700 transition card-hover sm:col-span-2"
+                  to="/about#mother-elena"
+                  className="inline-flex items-center gap-1.5 mt-4 text-sm font-semibold text-white hover:text-rw-gold-400 transition"
                 >
-                  <MessageCircle size={20} className="shrink-0" />
-                  <span className="text-sm font-semibold">Get in touch with us</span>
-                  <ArrowRight size={16} className="ml-auto opacity-80" />
+                  Read more <ArrowRight size={14} />
                 </Link>
+              </article>
+            )}
+            {directorPreview && (
+              <article className="bg-white/10 backdrop-blur-sm rounded-2xl border border-white/15 p-5 flex flex-col">
+                <GraduationCap size={20} className="text-rw-gold-400 mb-3" />
+                <p className="text-xs font-bold uppercase tracking-wide text-blue-200 mb-2">
+                  Director of Studies
+                </p>
+                <p className="text-sm text-blue-50 leading-relaxed line-clamp-5 flex-1">
+                  {directorPreview}
+                </p>
+                <Link
+                  to="/about#director-message"
+                  className="inline-flex items-center gap-1.5 mt-4 text-sm font-semibold text-white hover:text-rw-gold-400 transition"
+                >
+                  Read more <ArrowRight size={14} />
+                </Link>
+              </article>
+            )}
+          </RevealGroup>
+
+          <Reveal className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {settings?.mission && (
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+                <Heart size={18} className="text-brand-red-400 mb-2" />
+                <p className="text-xs font-bold uppercase tracking-wide text-blue-200 mb-1">Mission</p>
+                <p className="text-sm text-blue-50 line-clamp-3">{settings.mission}</p>
               </div>
-            </Reveal>
-          </div>
+            )}
+            {settings?.vision && (
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+                <Sparkles size={18} className="text-rw-gold-400 mb-2" />
+                <p className="text-xs font-bold uppercase tracking-wide text-blue-200 mb-1">Vision</p>
+                <p className="text-sm text-blue-50 line-clamp-3">{settings.vision}</p>
+              </div>
+            )}
+            {settings?.schoolMotto && (
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+                <BookOpen size={18} className="text-rw-gold-400 mb-2" />
+                <p className="text-xs font-bold uppercase tracking-wide text-blue-200 mb-1">Motto</p>
+                <p className="text-sm text-blue-50 line-clamp-3 italic">{settings.schoolMotto}</p>
+              </div>
+            )}
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+              <MapPin size={18} className="text-brand-red-400 mb-2" />
+              <p className="text-xs font-bold uppercase tracking-wide text-blue-200 mb-1">Location</p>
+              <p className="text-sm text-blue-50 line-clamp-3">
+                {settings?.address || 'Taba, Butare, Huye District, Rwanda'}
+              </p>
+            </div>
+          </Reveal>
+
+          <Reveal className="mt-8 flex flex-wrap gap-3">
+            <Button to="/about" variant="red">
+              Explore our full story
+            </Button>
+            <Button to="/contact" variant="outline" className="!border-white/50 !text-white hover:!bg-white/10">
+              Contact us
+            </Button>
+          </Reveal>
         </div>
       </section>
     </>

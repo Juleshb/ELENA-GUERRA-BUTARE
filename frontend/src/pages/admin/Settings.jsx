@@ -22,7 +22,7 @@ export default function AdminSettings() {
   };
 
   return (
-    <form onSubmit={handleSave} className="max-w-3xl space-y-4">
+    <form onSubmit={handleSave} className="max-w-4xl space-y-4">
       <AdminSection title="General" description="School name, tagline, and logo">
         <div className="grid gap-4">
           <Field label="School Name">
@@ -60,23 +60,82 @@ export default function AdminSettings() {
               onChange={(e) => update('heroImageUrl', e.target.value)}
               placeholder="https://youtu.be/... or /hero.mp4"
             />
-            <p className="text-xs text-slate-500 mt-1">
-              YouTube link or MP4 path/URL. Leave empty for default.
-            </p>
+            <p className="text-xs text-slate-500 mt-1">YouTube link or MP4 path/URL. Leave empty for default.</p>
           </Field>
         </div>
       </AdminSection>
 
-      <AdminSection title="About" description="Mission, vision, and about content">
+      <AdminSection title="Mission, vision & motto" description="Shown on Home and About pages">
         <div className="grid gap-4">
-          <Field label="About (HTML allowed)">
-            <textarea className={inputClass} rows={4} value={form.about || ''} onChange={(e) => update('about', e.target.value)} />
+          <Field label="Short about (homepage teaser)">
+            <textarea className={inputClass} rows={3} value={form.about || ''} onChange={(e) => update('about', e.target.value)} />
           </Field>
           <Field label="Mission">
-            <textarea className={inputClass} rows={2} value={form.mission || ''} onChange={(e) => update('mission', e.target.value)} />
+            <textarea className={inputClass} rows={4} value={form.mission || ''} onChange={(e) => update('mission', e.target.value)} />
           </Field>
           <Field label="Vision">
-            <textarea className={inputClass} rows={2} value={form.vision || ''} onChange={(e) => update('vision', e.target.value)} />
+            <textarea className={inputClass} rows={4} value={form.vision || ''} onChange={(e) => update('vision', e.target.value)} />
+          </Field>
+          <Field label="School motto">
+            <input className={inputClass} value={form.schoolMotto || ''} onChange={(e) => update('schoolMotto', e.target.value)} />
+          </Field>
+        </div>
+      </AdminSection>
+
+      <AdminSection
+        title="Our story content"
+        description="Full texts for About page and homepage Read more sections — edit anytime"
+      >
+        <div className="grid gap-4">
+          <Field label="Historical background">
+            <textarea
+              className={inputClass}
+              rows={10}
+              value={form.historicalBackground || ''}
+              onChange={(e) => update('historicalBackground', e.target.value)}
+            />
+          </Field>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <Field label="Principal / Headmistress title">
+              <input
+                className={inputClass}
+                value={form.principalTitle || ''}
+                onChange={(e) => update('principalTitle', e.target.value)}
+                placeholder="Headmistress"
+              />
+            </Field>
+          </div>
+          <Field label="Principal message">
+            <textarea
+              className={inputClass}
+              rows={10}
+              value={form.principalMessage || ''}
+              onChange={(e) => update('principalMessage', e.target.value)}
+            />
+          </Field>
+          <Field label="History of Mother Elena Guerra">
+            <textarea
+              className={inputClass}
+              rows={12}
+              value={form.motherElenaHistory || ''}
+              onChange={(e) => update('motherElenaHistory', e.target.value)}
+            />
+          </Field>
+          <Field label="Director of Studies name">
+            <input
+              className={inputClass}
+              value={form.directorName || ''}
+              onChange={(e) => update('directorName', e.target.value)}
+              placeholder="MANIRAGABA Bernard"
+            />
+          </Field>
+          <Field label="Director of Studies welcome message">
+            <textarea
+              className={inputClass}
+              rows={10}
+              value={form.directorMessage || ''}
+              onChange={(e) => update('directorMessage', e.target.value)}
+            />
           </Field>
         </div>
       </AdminSection>
