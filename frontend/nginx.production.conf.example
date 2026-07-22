@@ -1,0 +1,52 @@
+# Nginx reverse proxy for https://cselenaguerra.site
+# Point the site root at frontend/dist, and proxy API to Node on port 5001.
+#
+# Adjust paths/domain to match your aaPanel / server setup.
+
+server {
+    listen 80;
+    listen 443 ssl http2;
+    server_name cselenaguerra.site www.cselenaguerra.site;
+
+    # SSL managed by aaPanel / Let's Encrypt — keep your existing SSL block
+
+    root /www/wwwroot/ELENA-GUERRA-BUTARE/frontend/dist;
+    index index.html;
+
+    # Frontend SPA
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Backend API
+    location /api/ {
+        proxy_pass http://127.0.0.1:5001;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        client_max_body_size 20M;
+    }
+
+    # Uploaded images / files
+    location /uploads/ {
+        proxy_pass http://127.0.0.1:5001;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Socket.IO (live chat)
+    location /socket.io/ {
+        proxy_pass http://127.0.0.1:5001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 86400;
+    }
+}

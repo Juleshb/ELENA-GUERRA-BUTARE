@@ -4,6 +4,7 @@ import PageHeader from '../components/ui/PageHeader';
 import { CheckCircle2, ArrowLeft, ArrowRight } from 'lucide-react';
 import RwandaAddressFields from '../components/forms/RwandaAddressFields';
 import { Field, inputClass } from '../components/admin/FormModal';
+import { apiUrl } from '../lib/apiConfig';
 import {
   ATTENDANCE_TYPES,
   FUNDING_SOURCES,
@@ -83,7 +84,7 @@ export default function ApplyOnline() {
     setError('');
 
     try {
-      const res = await fetch('/api/applications', {
+      const res = await fetch(apiUrl('/applications'), {
         method: 'POST',
         body: buildApplicationFormData(form, files),
       });

@@ -1,4 +1,5 @@
 import { io } from 'socket.io-client';
+import { API_ORIGIN } from './apiConfig';
 
 let socket = null;
 let socketKey = '';
@@ -13,7 +14,7 @@ export function getSocket(token, type) {
   }
 
   socketKey = key;
-  socket = io({
+  socket = io(API_ORIGIN || undefined, {
     path: '/socket.io',
     auth: { token, type },
     transports: ['websocket', 'polling'],

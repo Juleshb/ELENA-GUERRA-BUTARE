@@ -21,9 +21,19 @@ const portalRoutes = require('./routes/portal');
 const app = express();
 const PORT = process.env.PORT || 5001;
 
+const CLIENT_URLS = (process.env.CLIENT_URL || 'http://localhost:5173')
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean);
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin(origin, callback) {
+      if (!origin || CLIENT_URLS.includes(origin) || CLIENT_URLS.includes('*')) {
+        return callback(null, true);
+      }
+      return callback(null, CLIENT_URLS[0] || true);
+    },
     credentials: true,
   })
 );
