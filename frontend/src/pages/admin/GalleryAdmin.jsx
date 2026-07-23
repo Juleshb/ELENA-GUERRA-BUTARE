@@ -9,9 +9,11 @@ import {
   AdminButton,
   AdminCard,
   AdminEmpty,
+  AdminPage,
   AdminSection,
   AdminSelect,
   AdminStatCard,
+  AdminStatsGrid,
   AdminToggleGroup,
   AdminToolbar,
 } from '../../components/admin/AdminUI';
@@ -127,25 +129,25 @@ export default function AdminGallery() {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+    <AdminPage>
+      <AdminStatsGrid>
         <AdminStatCard label="Total images" value={stats.total} icon={ImagePlus} accent="blue" />
         <AdminStatCard label="Published" value={stats.published} icon={Eye} accent="green" />
         <AdminStatCard label="Drafts" value={stats.drafts} icon={EyeOff} accent="amber" />
         <AdminStatCard label="Categories" value={stats.categories} icon={LayoutGrid} accent="red" />
-      </div>
+      </AdminStatsGrid>
 
       <AdminToolbar stats={`${filtered.length} result${filtered.length !== 1 ? 's' : ''}`}>
-        <div className="relative">
+        <div className="relative w-full sm:w-auto">
           <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search title, caption, category..."
-            className="w-72 border border-slate-200 rounded-xl pl-9 pr-3 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-rw-blue-500/30"
+            className="w-full sm:w-72 border border-slate-200 rounded-xl pl-9 pr-3 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-rw-blue-500/30"
           />
         </div>
-        <AdminSelect value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
+        <AdminSelect value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} className="w-full sm:w-auto">
           <option value="">All categories</option>
           {categories.map((cat) => (
             <option key={cat} value={cat}>
@@ -153,12 +155,12 @@ export default function AdminGallery() {
             </option>
           ))}
         </AdminSelect>
-        <AdminSelect value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+        <AdminSelect value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="w-full sm:w-auto">
           <option value="all">All statuses</option>
           <option value="published">Published</option>
           <option value="draft">Drafts</option>
         </AdminSelect>
-        <AdminSelect value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+        <AdminSelect value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="w-full sm:w-auto">
           <option value="order">Sort: Display order</option>
           <option value="newest">Sort: Newest first</option>
           <option value="title">Sort: Title A-Z</option>
@@ -171,10 +173,10 @@ export default function AdminGallery() {
           value={view}
           onChange={setView}
         />
-        <AdminButton variant="secondary" icon={UploadCloud} onClick={openBulk}>
+        <AdminButton variant="secondary" icon={UploadCloud} onClick={openBulk} className="w-full sm:w-auto">
           Bulk upload
         </AdminButton>
-        <AdminButton icon={Plus} onClick={openCreate}>
+        <AdminButton icon={Plus} onClick={openCreate} className="w-full sm:w-auto">
           Add image
         </AdminButton>
       </AdminToolbar>
@@ -335,6 +337,6 @@ export default function AdminGallery() {
           onChange={(e) => setBulkConfig({ ...bulkConfig, published: e.target.checked })}
         />
       </FormModal>
-    </div>
+    </AdminPage>
   );
 }

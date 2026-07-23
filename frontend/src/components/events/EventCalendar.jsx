@@ -74,10 +74,11 @@ export default function EventCalendar({
         </button>
       </div>
 
-      <div className="grid grid-cols-7 border-b border-slate-100 bg-rw-navy text-white text-xs font-semibold uppercase tracking-wide">
+      <div className="grid grid-cols-7 border-b border-slate-100 bg-rw-navy text-white text-[10px] sm:text-xs font-semibold uppercase tracking-wide">
         {WEEKDAYS.map((d) => (
-          <div key={d} className="py-2.5 text-center">
-            {d}
+          <div key={d} className="py-2 sm:py-2.5 text-center">
+            <span className="sm:hidden">{d.slice(0, 1)}</span>
+            <span className="hidden sm:inline">{d}</span>
           </div>
         ))}
       </div>
@@ -103,7 +104,7 @@ export default function EventCalendar({
               key={key + inMonth}
               type="button"
               onClick={() => onSelectDate?.(date)}
-              className={`min-h-[100px] md:min-h-[120px] p-1.5 md:p-2 border-b border-r border-slate-100 text-left transition flex flex-col ${
+              className={`min-h-[72px] sm:min-h-[100px] md:min-h-[120px] p-1 sm:p-1.5 md:p-2 border-b border-r border-slate-100 text-left transition flex flex-col ${
                 inMonth ? 'hover:bg-rw-blue-50/40' : 'text-slate-400'
               } ${
                 inMonth && specialStyle

@@ -21,8 +21,10 @@ import {
   AdminButton,
   AdminCard,
   AdminEmpty,
+  AdminPage,
   AdminSelect,
   AdminStatCard,
+  AdminStatsGrid,
 } from '../../components/admin/AdminUI';
 
 const STATUS_OPTIONS = [
@@ -302,8 +304,8 @@ export default function ApplicationsAdmin() {
   const statusChanged = statusForm.status !== initialStatus;
 
   return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-3">
+    <AdminPage>
+      <AdminStatsGrid className="xl:grid-cols-7">
         <AdminStatCard label="Total" value={stats.total} icon={ClipboardList} accent="blue" />
         <AdminStatCard label="Pending" value={stats.pending} icon={Hourglass} accent="amber" />
         <AdminStatCard label="In review" value={stats.review} icon={Clock} accent="blue" />
@@ -311,10 +313,10 @@ export default function ApplicationsAdmin() {
         <AdminStatCard label="Rejected" value={stats.rejected} icon={XCircle} accent="red" />
         <AdminStatCard label="Waitlisted" value={stats.waitlisted} icon={Users} accent="amber" />
         <AdminStatCard label="This week" value={stats.thisWeek} icon={GraduationCap} accent="green" />
-      </div>
+      </AdminStatsGrid>
 
-      <div className="flex flex-col lg:flex-row gap-3 lg:items-center lg:justify-between">
-        <div className="relative flex-1 max-w-md">
+      <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+        <div className="relative flex-1 w-full max-w-md">
           <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             type="search"
@@ -324,11 +326,11 @@ export default function ApplicationsAdmin() {
             className="w-full pl-9 pr-3 py-2.5 text-sm border border-slate-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-rw-blue-500/30"
           />
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-col sm:flex-row flex-wrap gap-2 w-full lg:w-auto">
           <AdminSelect
             value={classFilter}
             onChange={(e) => setClassFilter(e.target.value)}
-            className="min-w-[220px]"
+            className="w-full sm:w-auto sm:min-w-[220px]"
           >
             <option value="">All classes</option>
             {classOptions.map((opt) => (
@@ -337,7 +339,13 @@ export default function ApplicationsAdmin() {
               </option>
             ))}
           </AdminSelect>
-          <AdminButton variant="secondary" icon={Download} onClick={() => exportCsv(filtered)} disabled={!filtered.length}>
+          <AdminButton
+            variant="secondary"
+            icon={Download}
+            onClick={() => exportCsv(filtered)}
+            disabled={!filtered.length}
+            className="w-full sm:w-auto"
+          >
             Export CSV
           </AdminButton>
         </div>
@@ -383,8 +391,8 @@ export default function ApplicationsAdmin() {
         })}
       </div>
 
-      <AdminCard className="overflow-hidden !p-0 min-h-[520px]" noPadding>
-        <div className="flex min-h-[520px]">
+      <AdminCard className="overflow-hidden !p-0 min-h-[min(70dvh,520px)]" noPadding>
+        <div className="flex min-h-[min(70dvh,520px)]">
           <div
             className={`w-full lg:w-[360px] xl:w-[400px] shrink-0 border-r border-slate-100 flex flex-col ${
               mobileShowDetail ? 'hidden lg:flex' : 'flex'
@@ -479,24 +487,24 @@ export default function ApplicationsAdmin() {
                   </div>
 
                   <div className="flex flex-wrap gap-2 mt-3">
-                    <AdminButton variant="secondary" className="!px-3 !py-1.5 text-xs" onClick={() => quickStatus('UNDER_REVIEW')}>
+                    <AdminButton variant="secondary" className="!px-3 !py-1.5 text-xs flex-1 sm:flex-none min-w-[7rem]" onClick={() => quickStatus('UNDER_REVIEW')}>
                       Start review
                     </AdminButton>
-                    <AdminButton variant="secondary" className="!px-3 !py-1.5 text-xs" onClick={() => quickStatus('ACCEPTED')}>
+                    <AdminButton variant="secondary" className="!px-3 !py-1.5 text-xs flex-1 sm:flex-none" onClick={() => quickStatus('ACCEPTED')}>
                       Accept
                     </AdminButton>
-                    <AdminButton variant="secondary" className="!px-3 !py-1.5 text-xs" onClick={() => quickStatus('WAITLISTED')}>
+                    <AdminButton variant="secondary" className="!px-3 !py-1.5 text-xs flex-1 sm:flex-none" onClick={() => quickStatus('WAITLISTED')}>
                       Waitlist
                     </AdminButton>
-                    <AdminButton variant="danger" className="!px-3 !py-1.5 text-xs" onClick={() => quickStatus('REJECTED')}>
+                    <AdminButton variant="danger" className="!px-3 !py-1.5 text-xs flex-1 sm:flex-none" onClick={() => quickStatus('REJECTED')}>
                       Reject
                     </AdminButton>
-                    <AdminButton variant="danger" icon={Trash2} className="!px-3 !py-1.5 text-xs ml-auto" onClick={deleteApplication}>
+                    <AdminButton variant="danger" icon={Trash2} className="!px-3 !py-1.5 text-xs w-full sm:w-auto sm:ml-auto" onClick={deleteApplication}>
                       Delete
                     </AdminButton>
                   </div>
 
-                  <div className="flex gap-1 mt-3 overflow-x-auto">
+                  <div className="flex gap-1 mt-3 overflow-x-auto pb-0.5 -mx-1 px-1">
                     {DETAIL_TABS.map((tab) => (
                       <button
                         key={tab.id}
@@ -655,7 +663,7 @@ export default function ApplicationsAdmin() {
                             {saveError}
                           </p>
                         )}
-                        <AdminButton onClick={saveStatus} disabled={saving}>
+                        <AdminButton onClick={saveStatus} disabled={saving} className="w-full sm:w-auto">
                           {saving ? 'Saving…' : 'Save changes'}
                         </AdminButton>
                       </div>
@@ -667,6 +675,6 @@ export default function ApplicationsAdmin() {
           </div>
         </div>
       </AdminCard>
-    </div>
+    </AdminPage>
   );
 }

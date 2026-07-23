@@ -9,8 +9,10 @@ import {
   AdminButton,
   AdminCard,
   AdminEmpty,
+  AdminPage,
   AdminSelect,
   AdminStatCard,
+  AdminStatsGrid,
   AdminToggleGroup,
   AdminToolbar,
 } from '../../components/admin/AdminUI';
@@ -100,24 +102,24 @@ export default function AdminStaff() {
   );
 
   return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+    <AdminPage>
+      <AdminStatsGrid>
         <AdminStatCard label="Total staff" value={stats.total} icon={Users} accent="blue" />
         <AdminStatCard label="Published" value={stats.published} icon={Eye} accent="green" />
         <AdminStatCard label="Drafts" value={stats.drafts} icon={EyeOff} accent="amber" />
         <AdminStatCard label="Departments" value={stats.departments} icon={Building2} accent="red" />
-      </div>
+      </AdminStatsGrid>
 
       <AdminToolbar stats={`${filtered.length} result${filtered.length !== 1 ? 's' : ''}`}>
-        <div className="relative">
+        <div className="relative w-full sm:w-auto">
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search name, role, email..."
-            className="w-60 border border-slate-200 rounded-xl px-3 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-rw-blue-500/30"
+            className="w-full sm:w-60 border border-slate-200 rounded-xl px-3 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-rw-blue-500/30"
           />
         </div>
-        <AdminSelect value={departmentFilter} onChange={(e) => setDepartmentFilter(e.target.value)}>
+        <AdminSelect value={departmentFilter} onChange={(e) => setDepartmentFilter(e.target.value)} className="w-full sm:w-auto">
           <option value="">All departments</option>
           {departmentOptions.map((d) => (
             <option key={d} value={d}>
@@ -125,7 +127,7 @@ export default function AdminStaff() {
             </option>
           ))}
         </AdminSelect>
-        <AdminSelect value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+        <AdminSelect value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="w-full sm:w-auto">
           <option value="all">All statuses</option>
           <option value="published">Published</option>
           <option value="draft">Drafts</option>
@@ -138,7 +140,7 @@ export default function AdminStaff() {
           value={view}
           onChange={setView}
         />
-        <AdminButton icon={Plus} onClick={openCreate}>
+        <AdminButton icon={Plus} onClick={openCreate} className="w-full sm:w-auto">
           Add staff
         </AdminButton>
       </AdminToolbar>
@@ -332,6 +334,6 @@ export default function AdminStaff() {
         />
         <CheckboxField label="Published on website" checked={form.published} onChange={(e) => setForm({ ...form, published: e.target.checked })} />
       </FormModal>
-    </div>
+    </AdminPage>
   );
 }

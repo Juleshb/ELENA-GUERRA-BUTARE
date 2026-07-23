@@ -3,7 +3,7 @@ import api from '../../api/client';
 import { CircleHelp, ClipboardList, FileText, Wallet } from 'lucide-react';
 import CrudTable, { AdminBadge } from '../../components/admin/CrudTable';
 import FormModal, { Field, inputClass, CheckboxField } from '../../components/admin/FormModal';
-import { AdminButton, AdminSection, AdminStatCard, AdminToolbar } from '../../components/admin/AdminUI';
+import { AdminButton, AdminPage, AdminSection, AdminStatCard, AdminStatsGrid, AdminToolbar } from '../../components/admin/AdminUI';
 
 export default function AdmissionsAdmin() {
   const [data, setData] = useState(null);
@@ -90,19 +90,19 @@ export default function AdmissionsAdmin() {
   }
 
   return (
-    <div className="space-y-4 max-w-6xl">
+    <AdminPage className="max-w-6xl">
       <AdminToolbar stats="Admissions dashboard for protocol content">
         <AdminBadge variant={protocolForm.published !== false ? 'success' : 'draft'}>
           {protocolForm.published !== false ? 'Published' : 'Draft'}
         </AdminBadge>
       </AdminToolbar>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+      <AdminStatsGrid>
         <AdminStatCard label="Process steps" value={(data.steps || []).length} icon={ClipboardList} accent="blue" />
         <AdminStatCard label="Requirements" value={(data.requirements || []).length} icon={FileText} accent="amber" />
         <AdminStatCard label="Registration fees" value={(data.fees || []).length} icon={Wallet} accent="green" />
         <AdminStatCard label="FAQs" value={(data.faqs || []).length} icon={CircleHelp} accent="red" />
-      </div>
+      </AdminStatsGrid>
 
       <AdminSection
         title="Overview & contact"
@@ -161,11 +161,11 @@ export default function AdmissionsAdmin() {
           checked={protocolForm.published !== false}
           onChange={(e) => setProtocolForm({ ...protocolForm, published: e.target.checked })}
         />
-        <div className="flex items-center gap-3">
-          <AdminButton type="submit" variant="primary">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+          <AdminButton type="submit" variant="primary" className="w-full sm:w-auto">
             Save protocol
           </AdminButton>
-          {saved && <span className="text-emerald-600 text-sm font-medium">Saved!</span>}
+          {saved && <span className="text-emerald-600 text-sm font-medium text-center sm:text-left">Saved!</span>}
         </div>
         </form>
       </AdminSection>
@@ -505,6 +505,6 @@ export default function AdmissionsAdmin() {
           onChange={(e) => setFaqForm({ ...faqForm, published: e.target.checked })}
         />
       </FormModal>
-    </div>
+    </AdminPage>
   );
 }

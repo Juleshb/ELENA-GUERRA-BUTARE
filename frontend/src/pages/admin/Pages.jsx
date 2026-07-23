@@ -3,7 +3,7 @@ import { Plus } from 'lucide-react';
 import { useCrud } from '../../hooks/useCrud';
 import CrudTable, { AdminBadge } from '../../components/admin/CrudTable';
 import FormModal, { Field, inputClass, CheckboxField } from '../../components/admin/FormModal';
-import { AdminButton, AdminCard, AdminToolbar } from '../../components/admin/AdminUI';
+import { AdminButton, AdminCard, AdminPage, AdminToolbar } from '../../components/admin/AdminUI';
 
 const empty = { title: '', slug: '', excerpt: '', content: '', published: false, showInNav: true, navOrder: 0 };
 
@@ -32,7 +32,7 @@ export default function AdminPages() {
   };
 
   return (
-    <div className="space-y-4">
+    <AdminPage>
       <AdminToolbar stats={`${items.length} page${items.length !== 1 ? 's' : ''}`}>
         <AdminButton icon={Plus} onClick={openCreate}>
           New page
@@ -60,7 +60,7 @@ export default function AdminPages() {
         />
       </AdminCard>
 
-      <FormModal title={editingId ? 'Edit Page' : 'New Page'} open={modal} onClose={() => setModal(false)} onSubmit={handleSave}>
+      <FormModal title={editingId ? 'Edit Page' : 'New Page'} open={modal} onClose={() => setModal(false)} onSubmit={handleSave} wide>
         <Field label="Title">
           <input className={inputClass} value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required />
         </Field>
@@ -76,6 +76,6 @@ export default function AdminPages() {
         <CheckboxField label="Published" checked={form.published} onChange={(e) => setForm({ ...form, published: e.target.checked })} />
         <CheckboxField label="Show in navigation" checked={form.showInNav} onChange={(e) => setForm({ ...form, showInNav: e.target.checked })} />
       </FormModal>
-    </div>
+    </AdminPage>
   );
 }

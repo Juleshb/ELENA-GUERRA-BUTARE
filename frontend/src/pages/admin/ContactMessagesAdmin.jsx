@@ -19,7 +19,7 @@ import { FaWhatsapp } from 'react-icons/fa6';
 import api from '../../api/client';
 import { Field, inputClass } from '../../components/admin/FormModal';
 import { useChatSocket } from '../../hooks/useChatSocket';
-import { AdminButton, AdminCard, AdminStatCard } from '../../components/admin/AdminUI';
+import { AdminButton, AdminCard, AdminPage, AdminStatCard, AdminStatsGrid } from '../../components/admin/AdminUI';
 
 function initials(name) {
   return name
@@ -273,9 +273,9 @@ export default function ContactMessagesAdmin() {
   ];
 
   return (
-    <div className="h-[calc(100svh-11.5rem)] flex flex-col gap-4 min-h-0 overflow-hidden">
+    <AdminPage className="h-[calc(100dvh-7rem)] sm:h-[calc(100dvh-8.5rem)] lg:h-[calc(100svh-11.5rem)] !space-y-3 sm:!space-y-4 flex flex-col min-h-0 overflow-hidden">
       {/* Stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
+      <AdminStatsGrid className="shrink-0">
         <AdminStatCard label="Total inbox" value={stats.total} icon={Inbox} accent="blue" />
         <AdminStatCard label="Unread" value={stats.unread} icon={Mail} accent="amber" />
         <AdminStatCard label="Replied" value={stats.replied} icon={CheckCircle2} accent="green" />
@@ -285,7 +285,7 @@ export default function ContactMessagesAdmin() {
           icon={MessageCircle}
           accent="red"
         />
-      </div>
+      </AdminStatsGrid>
 
       {/* Inbox layout — fills remaining height; scroll only inside list & thread */}
       <AdminCard className="overflow-hidden flex-1 min-h-0 flex flex-col" noPadding>
@@ -440,7 +440,7 @@ export default function ContactMessagesAdmin() {
                       <ArrowLeft size={20} />
                     </button>
                     <div
-                      className={`w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${
+                      className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${
                         !selected.read
                           ? 'bg-brand-red-100 text-brand-red-700'
                           : 'bg-rw-blue-100 text-rw-blue-700'
@@ -449,8 +449,30 @@ export default function ContactMessagesAdmin() {
                       {initials(selected.name)}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-bold text-rw-navy truncate">{selected.name}</h3>
-                      <p className="text-sm text-rw-blue-600 truncate">{selected.email}</p>
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="min-w-0">
+                          <h3 className="font-bold text-rw-navy truncate">{selected.name}</h3>
+                          <p className="text-sm text-rw-blue-600 truncate">{selected.email}</p>
+                        </div>
+                        <div className="flex gap-1 shrink-0">
+                          <button
+                            type="button"
+                            onClick={toggleRead}
+                            className="p-2 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-600"
+                            title={selected.read ? 'Mark unread' : 'Mark read'}
+                          >
+                            {selected.read ? <MailOpen size={16} /> : <Mail size={16} />}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={deleteMessage}
+                            className="p-2 rounded-lg border border-red-200 hover:bg-red-50 text-red-600"
+                            title="Delete"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      </div>
                       <div className="flex flex-wrap items-center gap-2 mt-1 text-xs text-slate-500">
                         <span className="inline-flex items-center gap-1">
                           <Clock size={12} />
@@ -473,24 +495,6 @@ export default function ContactMessagesAdmin() {
                           </span>
                         )}
                       </div>
-                    </div>
-                    <div className="flex gap-1 shrink-0">
-                      <button
-                        type="button"
-                        onClick={toggleRead}
-                        className="p-2 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-600"
-                        title={selected.read ? 'Mark unread' : 'Mark read'}
-                      >
-                        {selected.read ? <MailOpen size={16} /> : <Mail size={16} />}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={deleteMessage}
-                        className="p-2 rounded-lg border border-red-200 hover:bg-red-50 text-red-600"
-                        title="Delete"
-                      >
-                        <Trash2 size={16} />
-                      </button>
                     </div>
                   </div>
                   {selected.subject && (
@@ -644,7 +648,7 @@ export default function ContactMessagesAdmin() {
                       icon={Send}
                       onClick={sendReply}
                       disabled={replying || !replyText.trim()}
-                      className="shrink-0"
+                      className="w-full sm:w-auto shrink-0"
                     >
                       {replying ? 'Sending...' : 'Send reply'}
                     </AdminButton>
@@ -656,6 +660,6 @@ export default function ContactMessagesAdmin() {
           </div>
         </div>
       </AdminCard>
-    </div>
+    </AdminPage>
   );
 }

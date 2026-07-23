@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import api from '../../api/client';
 import { Field, inputClass } from '../../components/admin/FormModal';
 import { resolveLogoUrl } from '../../lib/brand';
-import { AdminButton, AdminCard, AdminSection } from '../../components/admin/AdminUI';
+import { AdminButton, AdminCard, AdminPage, AdminSection } from '../../components/admin/AdminUI';
 
 export default function AdminSettings() {
   const [form, setForm] = useState({});
@@ -22,7 +22,8 @@ export default function AdminSettings() {
   };
 
   return (
-    <form onSubmit={handleSave} className="max-w-4xl space-y-4">
+    <AdminPage className="max-w-4xl">
+    <form onSubmit={handleSave} className="space-y-3 sm:space-y-4">
       <AdminSection title="General" description="School name, tagline, and logo">
         <div className="grid gap-4">
           <Field label="School Name">
@@ -154,12 +155,13 @@ export default function AdminSettings() {
         </div>
       </AdminSection>
 
-      <AdminCard className="flex items-center gap-4">
-        <AdminButton type="submit" variant="primary">
+      <AdminCard className="flex flex-col sm:flex-row sm:items-center gap-3 sticky bottom-3 z-10 shadow-lg">
+        <AdminButton type="submit" variant="primary" className="w-full sm:w-auto">
           Save settings
         </AdminButton>
-        {saved && <span className="text-emerald-600 text-sm font-medium">Settings saved successfully.</span>}
+        {saved && <span className="text-emerald-600 text-sm font-medium text-center sm:text-left">Settings saved successfully.</span>}
       </AdminCard>
     </form>
+    </AdminPage>
   );
 }

@@ -45,10 +45,10 @@ export default function AdminLogin() {
           </Link>
         </p>
       </div>
-      <div className="flex-1 flex items-center justify-center bg-[#f4f7fb] px-4 py-12">
+      <div className="flex-1 flex items-center justify-center bg-[#f4f7fb] px-4 py-8 sm:py-12">
         <form
           onSubmit={handleSubmit}
-          className="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-8 w-full max-w-md"
+          className="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-5 sm:p-8 w-full max-w-md"
         >
           <div className="lg:hidden rw-tricolor rounded-sm mb-6" style={{ height: 4 }} />
           <h2 className="text-2xl font-bold text-rw-navy">Staff Sign In</h2>

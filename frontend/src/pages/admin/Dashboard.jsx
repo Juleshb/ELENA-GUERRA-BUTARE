@@ -162,18 +162,18 @@ function StatCard({ label, value, to, variant = 'light' }) {
   return (
     <Link
       to={to}
-      className={`rounded-2xl border p-5 shadow-sm hover:shadow-md transition group relative overflow-hidden ${styles[variant]}`}
+      className={`rounded-2xl border p-3.5 sm:p-5 shadow-sm hover:shadow-md transition group relative overflow-hidden ${styles[variant]}`}
     >
       <ArrowUpRight
         size={18}
-        className={`absolute top-4 right-4 opacity-40 group-hover:opacity-100 transition ${
+        className={`absolute top-3 right-3 sm:top-4 sm:right-4 opacity-40 group-hover:opacity-100 transition ${
           variant === 'dark' ? 'text-white' : 'text-rw-navy'
         }`}
       />
-      <p className={`text-3xl font-bold tabular-nums ${variant === 'dark' ? 'text-white' : 'text-rw-navy'}`}>
+      <p className={`text-2xl sm:text-3xl font-bold tabular-nums ${variant === 'dark' ? 'text-white' : 'text-rw-navy'}`}>
         {value}
       </p>
-      <p className={`text-sm font-medium mt-1 ${variant === 'dark' ? 'text-blue-100' : 'text-slate-600'}`}>
+      <p className={`text-xs sm:text-sm font-medium mt-1 pr-5 ${variant === 'dark' ? 'text-blue-100' : 'text-slate-600'}`}>
         {label}
       </p>
     </Link>
@@ -184,16 +184,16 @@ function Card({ title, action, actionTo, children, className = '' }) {
   return (
     <div className={`bg-white rounded-2xl border border-slate-200/80 shadow-sm ${className}`}>
       {(title || actionTo) && (
-        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-100">
-          {title && <h3 className="text-sm font-semibold text-rw-navy">{title}</h3>}
+        <div className="flex items-center justify-between gap-2 px-4 sm:px-5 py-3.5 sm:py-4 border-b border-slate-100">
+          {title && <h3 className="text-sm font-semibold text-rw-navy truncate">{title}</h3>}
           {actionTo && (
-            <Link to={actionTo} className="text-xs font-medium text-rw-blue-600 hover:underline">
+            <Link to={actionTo} className="text-xs font-medium text-rw-blue-600 hover:underline shrink-0">
               {action}
             </Link>
           )}
         </div>
       )}
-      <div className="p-5">{children}</div>
+      <div className="p-4 sm:p-5">{children}</div>
     </div>
   );
 }
@@ -331,29 +331,29 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="animate-pulse space-y-6">
+      <div className="animate-pulse space-y-4 sm:space-y-6">
         <div className="h-12 bg-white rounded-2xl" />
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="h-28 bg-white rounded-2xl" />
+            <div key={i} className="h-24 sm:h-28 bg-white rounded-2xl" />
           ))}
         </div>
-        <div className="grid grid-cols-3 gap-6">
-          <div className="col-span-2 h-64 bg-white rounded-2xl" />
-          <div className="h-64 bg-white rounded-2xl" />
+        <div className="grid lg:grid-cols-2 gap-4">
+          <div className="h-56 bg-white rounded-2xl" />
+          <div className="h-56 bg-white rounded-2xl" />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex gap-6">
+    <div className="flex flex-col xl:flex-row gap-4 xl:gap-6">
       {/* Main column */}
-      <div className="flex-1 min-w-0 space-y-6">
+      <div className="flex-1 min-w-0 space-y-4 sm:space-y-6">
         {/* Top bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-          <h2 className="text-xl font-bold text-rw-navy shrink-0">Dashboard</h2>
-          <div className="relative flex-1 max-w-xl">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+          <h2 className="text-lg sm:text-xl font-bold text-rw-navy shrink-0 hidden lg:block">Dashboard</h2>
+          <div className="relative flex-1 max-w-xl w-full">
             <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type="search"
@@ -364,7 +364,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Stat cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <StatCard label="Applications" value={applications.length} to="/admin/applications" variant="light" />
           <StatCard label="Staff profiles" value={counts.staff ?? 0} to="/admin/staff" variant="soft" />
           <StatCard label="Messages" value={messages.length} to="/admin/contact-messages" variant="soft" />
@@ -372,7 +372,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Charts row */}
-        <div className="grid lg:grid-cols-2 gap-4">
+        <div className="grid lg:grid-cols-2 gap-3 sm:gap-4">
           <Card title="Applications by level">
             {levelSegments.length > 0 ? (
               <DonutChart
@@ -396,7 +396,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Activity row */}
-        <div className="grid lg:grid-cols-2 gap-4">
+        <div className="grid lg:grid-cols-2 gap-3 sm:gap-4">
           <Card title="Weekly portal activity">
             <BarChart data={weekdayActivity.data} labels={weekdayActivity.labels} />
           </Card>
@@ -414,7 +414,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Notice + messages */}
-        <div className="grid lg:grid-cols-5 gap-4">
+        <div className="grid lg:grid-cols-5 gap-3 sm:gap-4">
           <Card title="Notice board" action="Manage" actionTo="/admin/posts" className="lg:col-span-3">
             {publishedPosts.length === 0 ? (
               <p className="text-sm text-slate-500 text-center py-6">No published news yet.</p>
@@ -489,8 +489,8 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* Right sidebar */}
-      <aside className="hidden xl:flex w-72 shrink-0 flex-col gap-4">
+      {/* Right sidebar — stacks under main content on smaller screens */}
+      <aside className="w-full xl:w-72 shrink-0 flex flex-col gap-4">
         {/* Profile */}
         <div className="bg-white rounded-2xl border border-slate-200/80 p-4 shadow-sm flex items-center gap-3">
           <div className="w-11 h-11 rounded-full bg-gradient-to-br from-rw-blue-600 to-rw-navy text-white text-sm font-bold flex items-center justify-center shrink-0">

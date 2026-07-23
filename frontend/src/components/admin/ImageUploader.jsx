@@ -38,7 +38,7 @@ export function SingleImageUpload({ value, onChange, label = 'Image' }) {
       {value ? (
         <div className="relative group rounded-xl overflow-hidden border border-slate-200 bg-slate-50">
           <img src={mediaUrl(value)} alt={label} className="w-full h-40 object-cover" />
-          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2">
+          <div className="absolute inset-0 bg-black/40 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition flex items-center justify-center gap-2">
             <button
               type="button"
               onClick={() => inputRef.current?.click()}
@@ -178,7 +178,7 @@ export function AttachedImagesEditor({ images, onChange }) {
                   placeholder="Caption"
                 />
               </div>
-              <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition">
+              <div className="absolute top-2 right-2 flex gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition">
                 <button
                   type="button"
                   onClick={() => moveImage(index, -1)}

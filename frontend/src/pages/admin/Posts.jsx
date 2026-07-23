@@ -22,7 +22,7 @@ import { mediaUrl } from '../../lib/apiConfig';
 import { Field, inputClass } from '../../components/admin/FormModal';
 import { AttachedImagesEditor, SingleImageUpload } from '../../components/admin/ImageUploader';
 import { htmlToStory } from '../../lib/story';
-import { AdminButton, AdminCard, AdminStatCard, AdminToolbar } from '../../components/admin/AdminUI';
+import { AdminButton, AdminCard, AdminPage, AdminStatCard, AdminStatsGrid, AdminToolbar } from '../../components/admin/AdminUI';
 
 const empty = {
   title: '',
@@ -94,8 +94,8 @@ function StoryCard({ post, onEdit, onDelete, onTogglePublish }) {
             {photoCount}
           </span>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-        <div className="absolute bottom-0 left-0 right-0 p-3 flex gap-2 translate-y-full group-hover:translate-y-0 transition-transform duration-200">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity" />
+        <div className="absolute bottom-0 left-0 right-0 p-3 flex gap-2 translate-y-0 sm:translate-y-full sm:group-hover:translate-y-0 transition-transform duration-200">
           <button
             onClick={() => onEdit(post)}
             className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-white rounded-lg text-xs font-semibold text-rw-navy hover:bg-rw-blue-50 transition"
@@ -160,20 +160,20 @@ function EditorPanel({ open, editingId, form, setForm, onClose, onSave, saving, 
         onClick={onClose}
         className="absolute inset-0 bg-black/40 backdrop-blur-sm"
       />
-      <div className="relative w-full max-w-2xl bg-white shadow-2xl flex flex-col h-full">
-        <div className="shrink-0 px-6 py-4 border-b border-slate-100 bg-rw-navy text-white">
-          <div className="flex items-start justify-between gap-4">
-            <div>
+      <div className="relative w-full max-w-2xl bg-white shadow-2xl flex flex-col h-full max-h-dvh sm:max-h-none">
+        <div className="shrink-0 px-4 sm:px-6 py-3.5 sm:py-4 border-b border-slate-100 bg-rw-navy text-white">
+          <div className="flex items-start justify-between gap-3 sm:gap-4">
+            <div className="min-w-0">
               <p className="text-blue-200 text-xs font-semibold uppercase tracking-wider">
                 {editingId ? 'Editing story' : 'New story'}
               </p>
-              <h2 className="text-lg font-bold mt-1">
+              <h2 className="text-base sm:text-lg font-bold mt-1 truncate">
                 {form.title || 'Untitled news story'}
               </h2>
             </div>
             <button
               onClick={onClose}
-              className="p-2 rounded-lg hover:bg-white/10 transition"
+              className="p-2 rounded-lg hover:bg-white/10 transition shrink-0"
             >
               <X size={20} />
             </button>
@@ -187,7 +187,7 @@ function EditorPanel({ open, editingId, form, setForm, onClose, onSave, saving, 
           }}
           className="flex-1 overflow-y-auto"
         >
-          <div className="p-6 space-y-8">
+          <div className="p-4 sm:p-6 space-y-6 sm:space-y-8">
             <section>
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-8 h-8 rounded-lg bg-rw-blue-100 text-rw-blue-700 flex items-center justify-center">
@@ -311,13 +311,20 @@ function EditorPanel({ open, editingId, form, setForm, onClose, onSave, saving, 
           </div>
         </form>
 
-        <div className="shrink-0 px-6 py-4 border-t border-slate-100 bg-slate-50/50 flex flex-col gap-3">
+        <div className="shrink-0 px-4 sm:px-6 py-3 sm:py-4 border-t border-slate-100 bg-slate-50/50 flex flex-col gap-3">
           {saveError && (
             <p className="text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl px-3 py-2">
               {saveError}
             </p>
           )}
-          <div className="flex gap-2">
+          <div className="flex flex-col-reverse sm:flex-row gap-2">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-medium hover:bg-white transition"
+            >
+              Cancel
+            </button>
             <button
               type="button"
               onClick={onSave}
@@ -326,13 +333,6 @@ function EditorPanel({ open, editingId, form, setForm, onClose, onSave, saving, 
             >
               {saving ? <Loader2 size={16} className="animate-spin" /> : <CheckCircle2 size={16} />}
               {editingId ? 'Save changes' : 'Save story'}
-            </button>
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-medium hover:bg-white transition"
-            >
-              Cancel
             </button>
           </div>
         </div>
@@ -459,19 +459,19 @@ export default function AdminPosts() {
   };
 
   return (
-    <div className="space-y-4">
+    <AdminPage>
       <AdminToolbar stats={`${stats.total} stories · ${stats.drafts} drafts`}>
         <AdminButton variant="accent" icon={Plus} onClick={openCreate}>
           New story
         </AdminButton>
       </AdminToolbar>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+      <AdminStatsGrid>
         <StatPill label="Total stories" value={stats.total} accent="blue" />
         <StatPill label="Published" value={stats.published} accent="green" />
         <StatPill label="Drafts" value={stats.drafts} accent="amber" />
         <StatPill label="Gallery photos" value={stats.photos} accent="slate" />
-      </div>
+      </AdminStatsGrid>
 
       {/* Toolbar */}
       <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
@@ -559,6 +559,6 @@ export default function AdminPosts() {
         saving={saving}
         saveError={saveError}
       />
-    </div>
+    </AdminPage>
   );
 }

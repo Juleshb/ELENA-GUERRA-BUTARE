@@ -12,7 +12,7 @@ import {
 import { useCrud } from '../../hooks/useCrud';
 import FormModal, { Field, inputClass, CheckboxField } from '../../components/admin/FormModal';
 import EventCalendar, { SpecialDaysList } from '../../components/events/EventCalendar';
-import { AdminButton, AdminCard, AdminEmpty, AdminToggleGroup, AdminToolbar } from '../../components/admin/AdminUI';
+import { AdminButton, AdminCard, AdminEmpty, AdminPage, AdminToggleGroup, AdminToolbar } from '../../components/admin/AdminUI';
 import {
   defaultStartForDay,
   eventOccursOnDay,
@@ -85,7 +85,7 @@ export default function AdminEvents() {
   }
 
   return (
-    <div className="space-y-4">
+    <AdminPage>
       <AdminToolbar stats={`${items.length} events · ${upcomingCount} upcoming`}>
         <AdminToggleGroup
           options={[
@@ -244,11 +244,11 @@ export default function AdminEvents() {
                     {event.location && ` · ${event.location}`}
                   </p>
                 </div>
-                <div className="flex gap-2 shrink-0">
-                  <AdminButton variant="ghost" onClick={() => openEdit(event)} className="!px-3 !py-1.5">
+                <div className="flex gap-2 shrink-0 w-full sm:w-auto">
+                  <AdminButton variant="ghost" onClick={() => openEdit(event)} className="!px-3 !py-1.5 flex-1 sm:flex-none">
                     Edit
                   </AdminButton>
-                  <AdminButton variant="danger" onClick={() => handleDelete(event.id)} className="!px-3 !py-1.5">
+                  <AdminButton variant="danger" onClick={() => handleDelete(event.id)} className="!px-3 !py-1.5 flex-1 sm:flex-none">
                     Delete
                   </AdminButton>
                 </div>
@@ -310,6 +310,6 @@ export default function AdminEvents() {
           onChange={(e) => setForm({ ...form, published: e.target.checked })}
         />
       </FormModal>
-    </div>
+    </AdminPage>
   );
 }
