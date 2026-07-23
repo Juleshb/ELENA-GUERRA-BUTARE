@@ -67,8 +67,25 @@ router.put('/', authRequired, async (req, res) => {
     });
     res.json(normalizeSettings(settings));
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Failed to update settings' });
+    console.error('Settings update failed:', err);
+    const message = err?.message || '';
+    const missingColumn =
+      /column .* does not exist/i.test(message) ||
+      /Unknown arg/i.test(message) ||
+      err?.code === 'P2022';
+
+    if (missingColumn) {
+      return res.status(500).json({
+        error: 'Failed to update settings',
+        detail:
+          'Database is missing speaker photo columns. On the API server run: npx prisma migrate deploy && npx prisma generate, then restart the API.',
+      });
+    }
+
+    res.status(500).json({
+      error: 'Failed to update settings',
+      detail: process.env.NODE_ENV === 'production' ? undefined : message,
+    });
   }
 });
 
