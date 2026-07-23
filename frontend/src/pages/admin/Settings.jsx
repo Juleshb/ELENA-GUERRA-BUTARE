@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../../api/client';
 import { Field, inputClass } from '../../components/admin/FormModal';
+import { SingleImageUpload } from '../../components/admin/ImageUploader';
 import { resolveLogoUrl } from '../../lib/brand';
 import { AdminButton, AdminCard, AdminPage, AdminSection } from '../../components/admin/AdminUI';
 
@@ -105,13 +106,35 @@ export default function AdminSettings() {
                 placeholder="Headmistress"
               />
             </Field>
+            <Field label="Principal name">
+              <input
+                className={inputClass}
+                value={form.principalName || ''}
+                onChange={(e) => update('principalName', e.target.value)}
+                placeholder="Full name"
+              />
+            </Field>
           </div>
+          <Field label="Principal photo">
+            <SingleImageUpload
+              value={form.principalPhotoUrl || ''}
+              onChange={(url) => update('principalPhotoUrl', url)}
+              label="Principal"
+            />
+          </Field>
           <Field label="Principal message">
             <textarea
               className={inputClass}
               rows={10}
               value={form.principalMessage || ''}
               onChange={(e) => update('principalMessage', e.target.value)}
+            />
+          </Field>
+          <Field label="Mother Elena Guerra photo">
+            <SingleImageUpload
+              value={form.motherElenaPhotoUrl || ''}
+              onChange={(url) => update('motherElenaPhotoUrl', url)}
+              label="Mother Elena"
             />
           </Field>
           <Field label="History of Mother Elena Guerra">
@@ -122,12 +145,21 @@ export default function AdminSettings() {
               onChange={(e) => update('motherElenaHistory', e.target.value)}
             />
           </Field>
-          <Field label="Director of Studies name">
-            <input
-              className={inputClass}
-              value={form.directorName || ''}
-              onChange={(e) => update('directorName', e.target.value)}
-              placeholder="MANIRAGABA Bernard"
+          <div className="grid sm:grid-cols-2 gap-4">
+            <Field label="Director of Studies name">
+              <input
+                className={inputClass}
+                value={form.directorName || ''}
+                onChange={(e) => update('directorName', e.target.value)}
+                placeholder="MANIRAGABA Bernard"
+              />
+            </Field>
+          </div>
+          <Field label="Director of Studies photo">
+            <SingleImageUpload
+              value={form.directorPhotoUrl || ''}
+              onChange={(url) => update('directorPhotoUrl', url)}
+              label="Director"
             />
           </Field>
           <Field label="Director of Studies welcome message">

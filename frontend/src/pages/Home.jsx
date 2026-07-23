@@ -486,10 +486,31 @@ export default function Home() {
           <RevealGroup className="grid md:grid-cols-3 gap-5 mb-10">
             {principalPreview && (
               <article className="bg-white/10 backdrop-blur-sm rounded-2xl border border-white/15 p-5 flex flex-col">
-                <Quote size={20} className="text-rw-gold-400 mb-3" />
-                <p className="text-xs font-bold uppercase tracking-wide text-blue-200 mb-2">
-                  {settings?.principalTitle || 'Principal'} message
-                </p>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-white/40 shrink-0 bg-white/10">
+                    {settings?.principalPhotoUrl ? (
+                      <img
+                        src={mediaUrl(settings.principalPhotoUrl)}
+                        alt={settings.principalName || 'Principal'}
+                        className="w-full h-full object-cover object-top"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <Quote size={20} className="text-rw-gold-400" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs font-bold uppercase tracking-wide text-blue-200">
+                      {settings?.principalTitle || 'Principal'} message
+                    </p>
+                    {settings?.principalName && (
+                      <p className="text-sm font-semibold text-white truncate mt-0.5">
+                        {settings.principalName}
+                      </p>
+                    )}
+                  </div>
+                </div>
                 <p className="text-sm text-blue-50 leading-relaxed line-clamp-5 flex-1">
                   {principalPreview}
                 </p>
@@ -503,10 +524,29 @@ export default function Home() {
             )}
             {motherElenaPreview && (
               <article className="bg-white/10 backdrop-blur-sm rounded-2xl border border-white/15 p-5 flex flex-col">
-                <Cross size={20} className="text-brand-red-400 mb-3" />
-                <p className="text-xs font-bold uppercase tracking-wide text-blue-200 mb-2">
-                  Mother Elena Guerra
-                </p>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-white/40 shrink-0 bg-white/10">
+                    {settings?.motherElenaPhotoUrl ? (
+                      <img
+                        src={mediaUrl(settings.motherElenaPhotoUrl)}
+                        alt="Saint Elena Guerra"
+                        className="w-full h-full object-cover object-top"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <Cross size={20} className="text-brand-red-400" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs font-bold uppercase tracking-wide text-blue-200">
+                      Mother Elena Guerra
+                    </p>
+                    <p className="text-sm font-semibold text-white truncate mt-0.5">
+                      Our foundress
+                    </p>
+                  </div>
+                </div>
                 <p className="text-sm text-blue-50 leading-relaxed line-clamp-5 flex-1">
                   {motherElenaPreview}
                 </p>
@@ -520,10 +560,31 @@ export default function Home() {
             )}
             {directorPreview && (
               <article className="bg-white/10 backdrop-blur-sm rounded-2xl border border-white/15 p-5 flex flex-col">
-                <GraduationCap size={20} className="text-rw-gold-400 mb-3" />
-                <p className="text-xs font-bold uppercase tracking-wide text-blue-200 mb-2">
-                  Director of Studies
-                </p>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-white/40 shrink-0 bg-white/10">
+                    {settings?.directorPhotoUrl ? (
+                      <img
+                        src={mediaUrl(settings.directorPhotoUrl)}
+                        alt={settings.directorName || 'Director of Studies'}
+                        className="w-full h-full object-cover object-top"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <GraduationCap size={20} className="text-rw-gold-400" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs font-bold uppercase tracking-wide text-blue-200">
+                      Director of Studies
+                    </p>
+                    {settings?.directorName && (
+                      <p className="text-sm font-semibold text-white truncate mt-0.5">
+                        {settings.directorName}
+                      </p>
+                    )}
+                  </div>
+                </div>
                 <p className="text-sm text-blue-50 leading-relaxed line-clamp-5 flex-1">
                   {directorPreview}
                 </p>

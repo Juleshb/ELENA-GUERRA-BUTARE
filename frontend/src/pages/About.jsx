@@ -3,7 +3,8 @@ import { Link, useOutletContext, useLocation } from 'react-router-dom';
 import PageHeader from '../components/ui/PageHeader';
 import { Reveal, RevealGroup } from '../components/ui/Reveal';
 import Seo from '../components/Seo';
-import { BookOpen, Cross, GraduationCap, Heart, Quote, Target, Telescope } from 'lucide-react';
+import { mediaUrl } from '../lib/apiConfig';
+import { BookOpen, Cross, GraduationCap, Heart, Quote, Target, Telescope, User } from 'lucide-react';
 
 function plainText(value) {
   return (value || '').replace(/<[^>]*>/g, '').trim();
@@ -39,17 +40,126 @@ function StorySection({ id, eyebrow, title, children, icon: Icon }) {
   );
 }
 
-function ProseBlock({ text }) {
+function ProseBlock({ text, className = '' }) {
   const parts = paragraphs(text);
   if (!parts.length) return null;
   return (
-    <div className="space-y-4 text-slate-700 leading-relaxed">
+    <div className={`space-y-4 leading-relaxed ${className}`}>
       {parts.map((p, i) => (
         <p key={i} className="whitespace-pre-line">
           {p}
         </p>
       ))}
     </div>
+  );
+}
+
+function SpeakerPortrait({ photoUrl, name, size = 'lg' }) {
+  const src = mediaUrl(photoUrl);
+  const sizes = {
+    md: 'w-24 h-24 md:w-28 md:h-28',
+    lg: 'w-36 h-36 md:w-44 md:h-44',
+    xl: 'w-40 h-40 md:w-52 md:h-52',
+  };
+  const initials = (name || '?')
+    .split(' ')
+    .filter(Boolean)
+    .map((n) => n[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
+
+  return (
+    <div className={`relative shrink-0 ${sizes[size]}`}>
+      <div className="absolute -inset-1.5 rounded-full bg-gradient-to-br from-rw-blue-500 via-brand-red-500 to-rw-gold-400 opacity-80" />
+      <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white shadow-xl bg-slate-100">
+        {src ? (
+          <img src={src} alt={name || 'Speaker'} className="w-full h-full object-cover object-top" />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-rw-navy to-rw-blue-800 text-white">
+            {name ? (
+              <span className="text-2xl md:text-3xl font-bold tracking-wide">{initials}</span>
+            ) : (
+              <User size={40} className="opacity-70" />
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/** Speech layout: portrait + name plate + message */
+function SpeechCard({
+  photoUrl,
+  name,
+  role,
+  message,
+  variant = 'light',
+}) {
+  const isDark = variant === 'dark';
+
+  return (
+    <article
+      className={`rounded-2xl overflow-hidden shadow-sm ${
+        isDark
+          ? 'bg-gradient-to-br from-rw-navy to-rw-blue-900 text-white shadow-xl'
+          : 'bg-white border border-slate-200/80'
+      }`}
+    >
+      {!isDark && <div className="h-1.5 bg-gradient-to-r from-rw-blue-600 via-brand-red-600 to-rw-blue-600" />}
+      <div className="p-6 md:p-10">
+        <div className="flex flex-col md:flex-row gap-8 md:gap-10 items-center md:items-start">
+          <div className="flex flex-col items-center text-center shrink-0">
+            <SpeakerPortrait photoUrl={photoUrl} name={name} size={isDark ? 'xl' : 'lg'} />
+            {(name || role) && (
+              <div className="mt-4 max-w-[14rem]">
+                {name && (
+                  <p className={`font-bold text-lg leading-snug ${isDark ? 'text-white' : 'text-rw-navy'}`}>
+                    {name}
+                  </p>
+                )}
+                {role && (
+                  <p
+                    className={`text-sm mt-1 font-medium ${
+                      isDark ? 'text-rw-gold-400' : 'text-rw-blue-700'
+                    }`}
+                  >
+                    {role}
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
+
+          <div className="flex-1 min-w-0 w-full">
+            <Quote
+              size={28}
+              className={`mb-4 ${isDark ? 'text-rw-gold-400/80' : 'text-rw-blue-200'}`}
+              strokeWidth={1.5}
+            />
+            <ProseBlock
+              text={message}
+              className={isDark ? 'text-blue-50' : 'text-slate-700'}
+            />
+            {name && (
+              <p
+                className={`mt-8 pt-5 border-t font-semibold ${
+                  isDark ? 'border-white/15 text-white' : 'border-slate-100 text-rw-navy'
+                }`}
+              >
+                — {name}
+                {role && (
+                  <span className={`block text-sm font-normal mt-0.5 ${isDark ? 'text-blue-200' : 'text-slate-500'}`}>
+                    {role}
+                  </span>
+                )}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+    </article>
   );
 }
 
@@ -71,6 +181,10 @@ export default function About() {
     { id: 'director-message', label: 'Director of Studies' },
     { id: 'mission-vision', label: 'Mission & Vision' },
   ];
+
+  const principalRole = [settings?.principalTitle || 'Headmistress', schoolName]
+    .filter(Boolean)
+    .join(' · ');
 
   return (
     <>
@@ -108,7 +222,7 @@ export default function About() {
             icon={BookOpen}
           >
             <div className="bg-white rounded-2xl border border-slate-200/80 p-6 md:p-10 shadow-sm">
-              <ProseBlock text={settings.historicalBackground} />
+              <ProseBlock text={settings.historicalBackground} className="text-slate-700" />
             </div>
           </StorySection>
         )}
@@ -120,15 +234,12 @@ export default function About() {
             title="Principal message"
             icon={Quote}
           >
-            <div className="bg-white rounded-2xl border border-slate-200/80 overflow-hidden shadow-sm">
-              <div className="h-1.5 bg-gradient-to-r from-rw-blue-600 via-brand-red-600 to-rw-blue-600" />
-              <div className="p-6 md:p-10">
-                <p className="text-sm font-semibold text-rw-blue-700 mb-4">
-                  {settings.principalTitle || 'Headmistress'} · {schoolName}
-                </p>
-                <ProseBlock text={settings.principalMessage} />
-              </div>
-            </div>
+            <SpeechCard
+              photoUrl={settings.principalPhotoUrl}
+              name={settings.principalName}
+              role={principalRole}
+              message={settings.principalMessage}
+            />
           </StorySection>
         )}
 
@@ -139,15 +250,13 @@ export default function About() {
             title="History of Mother Elena Guerra"
             icon={Cross}
           >
-            <div className="bg-gradient-to-br from-rw-navy to-rw-blue-900 rounded-2xl text-white p-6 md:p-10 shadow-xl">
-              <div className="prose-invert space-y-4 text-blue-50 leading-relaxed">
-                {paragraphs(settings.motherElenaHistory).map((p, i) => (
-                  <p key={i} className="whitespace-pre-line">
-                    {p}
-                  </p>
-                ))}
-              </div>
-            </div>
+            <SpeechCard
+              photoUrl={settings.motherElenaPhotoUrl}
+              name="Saint Elena Guerra"
+              role="Foundress · Oblates of the Holy Spirit"
+              message={settings.motherElenaHistory}
+              variant="dark"
+            />
           </StorySection>
         )}
 
@@ -158,17 +267,12 @@ export default function About() {
             title="Welcome from the Director of Studies"
             icon={GraduationCap}
           >
-            <div className="bg-white rounded-2xl border border-slate-200/80 p-6 md:p-10 shadow-sm">
-              <ProseBlock text={settings.directorMessage} />
-              {settings.directorName && (
-                <p className="mt-6 pt-4 border-t border-slate-100 font-semibold text-rw-navy">
-                  {settings.directorName}
-                  <span className="block text-sm font-normal text-slate-500 mt-0.5">
-                    Director of Studies
-                  </span>
-                </p>
-              )}
-            </div>
+            <SpeechCard
+              photoUrl={settings.directorPhotoUrl}
+              name={settings.directorName}
+              role="Director of Studies"
+              message={settings.directorMessage}
+            />
           </StorySection>
         )}
 

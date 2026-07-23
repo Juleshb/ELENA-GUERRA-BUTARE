@@ -36,9 +36,13 @@ model SiteSettings {
   historicalBackground    String?  @db.Text
   principalMessage        String?  @db.Text
   principalTitle          String?  @default("Headmistress")
+  principalName           String?
+  principalPhotoUrl       String?
   motherElenaHistory      String?  @db.Text
+  motherElenaPhotoUrl     String?
   directorMessage         String?  @db.Text
   directorName            String?
+  directorPhotoUrl        String?
   address                 String?
   phone                   String?
   email                   String?
