@@ -61,7 +61,7 @@ const DETAIL_TABS = [
   { id: 'student', label: 'Student' },
   { id: 'family', label: 'Family' },
   { id: 'documents', label: 'Documents' },
-  { id: 'history', label: 'History' },
+  { id: 'history', label: 'Decision' },
 ];
 
 function initials(first, last) {
@@ -140,11 +140,17 @@ function DetailRow({ label, value }) {
 
 function DocLink({ href, label }) {
   if (!href) return null;
+  const url = mediaUrl(href);
   return (
     <a
-      href={mediaUrl(href)}
+      href={url}
       target="_blank"
-      rel="noreferrer"
+      rel="noopener noreferrer"
+      onClick={(e) => {
+        // Force absolute API URL — relative /uploads on Vercel opens the SPA home page
+        e.preventDefault();
+        window.open(url, '_blank', 'noopener,noreferrer');
+      }}
       className="inline-flex items-center gap-2 px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-medium text-rw-navy hover:border-rw-blue-300 hover:bg-rw-blue-50/50 transition"
     >
       <FileText size={15} />
