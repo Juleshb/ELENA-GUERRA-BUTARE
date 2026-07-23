@@ -37,6 +37,7 @@ export const DEFAULT_KEYWORDS = [
   'Catholic school Huye',
   'Catholic school Rwanda',
   'school Butare',
+  'school Huye',
   'primary school Huye',
   'secondary school Huye',
   'Oblates of the Holy Spirit',
