@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
-// Production backend (change to http://localhost:5001 for local API)
+// Local API (use https://cselenaguerra.site to hit production API from laptop)
 const BACKEND = 'https://cselenaguerra.site'
 
 export default defineConfig({

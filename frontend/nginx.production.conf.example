@@ -1,12 +1,14 @@
-# Nginx reverse proxy for https://cselenaguerra.site
-# Point the site root at frontend/dist, and proxy API to Node on port 5001.
+# Nginx reverse proxy WHEN frontend + API share one server.
+# Current production: frontend is on Vercel (www.cselenaguerrahuye.ac.rw)
+# and API is on https://cselenaguerra.site — then you do NOT need this file.
+# Set frontend VITE_API_URL=https://cselenaguerra.site instead.
 #
-# Adjust paths/domain to match your aaPanel / server setup.
+# If you later host both on one VPS, use this config and leave VITE_API_URL empty.
 
 server {
     listen 80;
     listen 443 ssl http2;
-    server_name cselenaguerra.site www.cselenaguerra.site;
+    server_name www.cselenaguerrahuye.ac.rw cselenaguerrahuye.ac.rw;
 
     # SSL managed by aaPanel / Let's Encrypt — keep your existing SSL block
 

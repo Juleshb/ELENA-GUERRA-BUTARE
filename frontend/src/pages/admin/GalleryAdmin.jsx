@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Eye, EyeOff, ImagePlus, LayoutGrid, List, Plus, Search, UploadCloud } from 'lucide-react';
 import api from '../../api/client';
+import { mediaUrl } from '../../lib/apiConfig';
 import { useCrud } from '../../hooks/useCrud';
 import CrudTable, { AdminBadge } from '../../components/admin/CrudTable';
 import FormModal, { Field, inputClass, CheckboxField } from '../../components/admin/FormModal';
@@ -197,7 +198,7 @@ export default function AdminGallery() {
                 label: 'Preview',
                 render: (r) =>
                   r.imageUrl ? (
-                    <img src={r.imageUrl} alt={r.title || 'Gallery'} className="h-12 w-12 object-cover rounded-lg border border-slate-200" />
+                    <img src={mediaUrl(r.imageUrl)} alt={r.title || 'Gallery'} className="h-12 w-12 object-cover rounded-lg border border-slate-200" />
                   ) : null,
               },
               {
@@ -234,7 +235,7 @@ export default function AdminGallery() {
           {filtered.map((row) => (
             <AdminCard key={row.id} className="space-y-3">
               <div className="relative rounded-xl overflow-hidden border border-slate-200">
-                <img src={row.imageUrl} alt={row.title || 'Gallery'} className="w-full h-44 object-cover" />
+                <img src={mediaUrl(row.imageUrl)} alt={row.title || 'Gallery'} className="w-full h-44 object-cover" />
                 <span className="absolute top-2 left-2 px-2 py-1 rounded-md bg-black/60 text-white text-xs font-semibold">
                   #{row.order || 0}
                 </span>

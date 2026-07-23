@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Link, useOutletContext, useLocation } from 'react-router-dom';
 import PageHeader from '../components/ui/PageHeader';
 import { Reveal, RevealGroup } from '../components/ui/Reveal';
+import Seo from '../components/Seo';
 import { BookOpen, Cross, GraduationCap, Heart, Quote, Target, Telescope } from 'lucide-react';
 
 function plainText(value) {
@@ -73,6 +74,11 @@ export default function About() {
 
   return (
     <>
+      <Seo
+        title="About Us"
+        description="Historical background, principal message, history of Saint Elena Guerra, mission and vision of C.S Elena Guerra Butare — Catholic school in Huye, Rwanda."
+        path="/about"
+      />
       <PageHeader
         title={`About ${schoolName}`}
         subtitle="Our story, leadership messages, and the legacy of Saint Elena Guerra"

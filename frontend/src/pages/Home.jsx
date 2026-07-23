@@ -6,7 +6,9 @@ import { Button, ReadMoreLink } from '../components/ui/Button';
 import HeroVideoBackground from '../components/HeroVideoBackground';
 import { EmptyState } from '../components/ui/Card';
 import { Reveal, RevealGroup } from '../components/ui/Reveal';
+import Seo from '../components/Seo';
 import { resolveLogoUrl } from '../lib/brand';
+import { mediaUrl } from '../lib/apiConfig';
 import {
   ArrowRight,
   BookOpen,
@@ -84,7 +86,7 @@ function HomeNewsCard({ post }) {
       <div className="relative h-52 overflow-hidden">
         {post.coverImage ? (
           <img
-            src={post.coverImage}
+            src={mediaUrl(post.coverImage)}
             alt=""
             className="w-full h-full object-cover img-zoom"
           />
@@ -188,6 +190,22 @@ export default function Home() {
 
   return (
     <>
+      <Seo
+        title="Home"
+        description="Welcome to C.S Elena Guerra Butare — Catholic Nursery, Primary, and Ordinary Level education in Huye, Rwanda. Apply online and discover our history and community."
+        path="/"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          name: 'C.S Elena Guerra Butare',
+          url: 'https://www.cselenaguerrahuye.ac.rw/',
+          potentialAction: {
+            '@type': 'SearchAction',
+            target: 'https://www.cselenaguerrahuye.ac.rw/news',
+            'query-input': 'required name=search_term_string',
+          },
+        }}
+      />
       {/* Welcome hero — cinematic video background */}
       <section className="hero-welcome relative bg-rw-navy text-white overflow-hidden flex items-center justify-center min-h-[88svh] md:min-h-[92svh]">
         <HeroVideoBackground videoUrl={settings?.heroImageUrl} />

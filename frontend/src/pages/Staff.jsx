@@ -3,8 +3,10 @@ import api from '../api/client';
 import PageHeader from '../components/ui/PageHeader';
 import { EmptyState } from '../components/ui/Card';
 import { Reveal, RevealGroup } from '../components/ui/Reveal';
+import Seo from '../components/Seo';
 import { Building2, Mail, Phone } from 'lucide-react';
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaXTwitter } from 'react-icons/fa6';
+import { mediaUrl } from '../lib/apiConfig';
 
 const SOCIAL_LINKS = [
   { key: 'facebook', Icon: FaFacebookF, label: 'Facebook', hover: 'hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2]' },
@@ -32,7 +34,7 @@ function StaffCard({ member }) {
       <div className="relative aspect-[4/5] max-h-64 bg-gradient-to-br from-rw-navy via-[#0d3d6b] to-rw-blue-800 overflow-hidden">
         {member.photoUrl ? (
           <img
-            src={member.photoUrl}
+            src={mediaUrl(member.photoUrl)}
             alt={member.name}
             className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
           />
@@ -136,6 +138,11 @@ export default function Staff() {
 
   return (
     <>
+      <Seo
+        title="Our Team"
+        description="Meet the educators and leaders at C.S Elena Guerra Butare — faculty and staff guiding learners in Huye, Rwanda."
+        path="/staff"
+      />
       <PageHeader
         title="Our Team"
         subtitle="Meet the educators and leaders guiding learners at C.S Elena Guerra"

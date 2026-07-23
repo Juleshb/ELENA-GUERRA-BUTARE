@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/client';
 import PageHeader from '../components/ui/PageHeader';
+import Seo from '../components/Seo';
 import { Field, inputClass } from '../components/admin/FormModal';
 
 const STATUS_STYLES = {
@@ -41,6 +42,11 @@ export default function TrackApplication() {
 
   return (
     <>
+      <Seo
+        title="Track Application"
+        description="Track your C.S Elena Guerra Butare admissions application status with your reference number."
+        path="/apply/track"
+      />
       <PageHeader
         title="Track Application"
         subtitle="Check the status of your submitted application"

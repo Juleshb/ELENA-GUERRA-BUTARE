@@ -13,6 +13,7 @@ import api from '../api/client';
 import PageHeader from '../components/ui/PageHeader';
 import EventCalendar, { SpecialDaysList } from '../components/events/EventCalendar';
 import { EmptyState } from '../components/ui/Card';
+import Seo from '../components/Seo';
 import { eventOccursOnDay } from '../utils/calendar';
 import {
   formatEventDateRange,
@@ -354,6 +355,11 @@ export default function Events() {
 
   return (
     <>
+      <Seo
+        title="School Calendar & Events"
+        description="Upcoming school events, open days, and key dates at C.S Elena Guerra Butare, alongside Rwanda public holidays."
+        path="/events"
+      />
       <PageHeader
         title="School Calendar & Events"
         subtitle="Upcoming activities, open days, and key dates alongside Rwanda public holidays"

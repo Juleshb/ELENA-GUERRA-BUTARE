@@ -10,6 +10,9 @@ import {
 } from 'lucide-react';
 import api from '../api/client';
 import PhotoLightbox, { getPostImages, PhotoPreviewButton } from '../components/news/PhotoLightbox';
+import Seo from '../components/Seo';
+import { absoluteUrl } from '../lib/seo';
+import { mediaUrl } from '../lib/apiConfig';
 
 function formatDate(date) {
   return new Date(date).toLocaleDateString('en-GB', {
@@ -30,7 +33,7 @@ function GalleryTile({ img, index, onClick, featured = false }) {
       }`}
     >
       <img
-        src={img.url}
+        src={mediaUrl(img.url)}
         alt={img.caption || `Photo ${index + 1}`}
         className={`w-full object-cover transition-transform duration-500 group-hover:scale-105 ${
           featured ? 'aspect-[16/10] sm:aspect-auto sm:h-full min-h-[200px]' : 'aspect-[4/3]'
@@ -83,12 +86,35 @@ export default function NewsDetail() {
 
   return (
     <>
+      <Seo
+        title={post.title}
+        description={post.excerpt || post.title}
+        path={`/news/${post.slug}`}
+        image={heroImage || '/logo.jpg'}
+        type="article"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'NewsArticle',
+          headline: post.title,
+          description: post.excerpt || post.title,
+          image: heroImage ? absoluteUrl(heroImage) : absoluteUrl('/logo.jpg'),
+          datePublished: post.publishedAt || post.createdAt,
+          dateModified: post.updatedAt || post.publishedAt || post.createdAt,
+          author: { '@type': 'Organization', name: 'C.S Elena Guerra Butare' },
+          publisher: {
+            '@type': 'Organization',
+            name: 'C.S Elena Guerra Butare',
+            logo: { '@type': 'ImageObject', url: absoluteUrl('/logo.jpg') },
+          },
+          mainEntityOfPage: absoluteUrl(`/news/${post.slug}`),
+        }}
+      />
       {/* Hero */}
       <div className="relative bg-rw-navy text-white overflow-hidden">
         <div className="absolute inset-0">
           {heroImage ? (
             <>
-              <img src={heroImage} alt="" className="w-full h-full object-cover opacity-40" />
+              <img src={mediaUrl(heroImage)} alt="" className="w-full h-full object-cover opacity-40" />
               <div className="absolute inset-0 bg-gradient-to-t from-rw-navy via-rw-navy/80 to-rw-navy/40" />
             </>
           ) : (
@@ -132,7 +158,7 @@ export default function NewsDetail() {
                   onClick={() => openLightbox(0)}
                   className="relative w-20 h-14 rounded-lg overflow-hidden border-2 border-white/30 hover:border-white transition"
                 >
-                  <img src={heroImage} alt="" className="w-full h-full object-cover" />
+                  <img src={mediaUrl(heroImage)} alt="" className="w-full h-full object-cover" />
                 </button>
               )}
             </div>
@@ -146,7 +172,7 @@ export default function NewsDetail() {
         {heroImage && (
           <div className="relative -mt-16 md:-mt-20 mb-10 rounded-2xl overflow-hidden shadow-2xl border-4 border-white group">
             <img
-              src={heroImage}
+              src={mediaUrl(heroImage)}
               alt=""
               className="w-full max-h-[480px] object-cover cursor-pointer"
               onClick={() => openLightbox(0)}

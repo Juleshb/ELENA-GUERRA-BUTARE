@@ -4,6 +4,7 @@ import { useCrud } from '../../hooks/useCrud';
 import CrudTable, { AdminBadge } from '../../components/admin/CrudTable';
 import FormModal, { Field, inputClass, CheckboxField } from '../../components/admin/FormModal';
 import { SingleImageUpload } from '../../components/admin/ImageUploader';
+import { mediaUrl } from '../../lib/apiConfig';
 import {
   AdminButton,
   AdminCard,
@@ -162,7 +163,7 @@ export default function AdminStaff() {
                 render: (r) => (
                   <div className="flex items-center gap-3">
                     <img
-                      src={r.photoUrl || '/logo.jpg'}
+                      src={mediaUrl(r.photoUrl) || '/logo.jpg'}
                       alt={r.name}
                       className="w-9 h-9 rounded-xl object-cover border border-slate-200"
                     />
@@ -224,7 +225,7 @@ export default function AdminStaff() {
             <AdminCard key={row.id} className="space-y-3">
               <div className="flex items-start gap-3">
                 <img
-                  src={row.photoUrl || '/logo.jpg'}
+                  src={mediaUrl(row.photoUrl) || '/logo.jpg'}
                   alt={row.name}
                   className="w-14 h-14 rounded-xl object-cover border border-slate-200"
                 />

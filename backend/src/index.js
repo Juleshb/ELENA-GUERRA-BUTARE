@@ -39,7 +39,12 @@ app.use(
 );
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use('/uploads', express.static(path.join(__dirname, '../uploads'), {
+  setHeaders(res) {
+    // Allow <img> / video from the Vercel frontend origin
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+  },
+}));
 
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', message: 'School CMS API is running' });
@@ -57,7 +62,11 @@ app.use('/api/admissions', admissionsRoutes);
 app.use('/api/applications', applicationsRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/portal', portalRoutes);
-app.use('/uploads/applications', express.static(path.join(__dirname, '../uploads/applications')));
+app.use('/uploads/applications', express.static(path.join(__dirname, '../uploads/applications'), {
+  setHeaders(res) {
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+  },
+}));
 
 app.use((err, _req, res, _next) => {
   console.error(err);

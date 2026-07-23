@@ -5,7 +5,9 @@ import api from '../api/client';
 import PageHeader from '../components/ui/PageHeader';
 import { EmptyState } from '../components/ui/Card';
 import { Reveal, RevealGroup } from '../components/ui/Reveal';
+import Seo from '../components/Seo';
 import PhotoLightbox, { getPostImages } from '../components/news/PhotoLightbox';
+import { mediaUrl } from '../lib/apiConfig';
 
 function formatDate(date) {
   return new Date(date).toLocaleDateString('en-GB', {
@@ -40,7 +42,7 @@ function PhotoStrip({ images, onPreview }) {
           }}
           className="w-10 h-10 rounded-lg overflow-hidden border-2 border-white shadow-sm hover:scale-105 transition shrink-0"
         >
-          <img src={img.url} alt="" className="w-full h-full object-cover" />
+          <img src={mediaUrl(img.url)} alt="" className="w-full h-full object-cover" />
         </button>
       ))}
       {extra > 0 && (
@@ -71,7 +73,7 @@ function FeaturedStory({ post, onPreview }) {
           {post.coverImage || images[0]?.url ? (
             <>
               <img
-                src={post.coverImage || images[0]?.url}
+                src={mediaUrl(post.coverImage || images[0]?.url)}
                 alt=""
                 className="absolute inset-0 w-full h-full object-cover"
               />
@@ -141,7 +143,7 @@ function StoryCard({ post, onPreview }) {
         {thumb ? (
           <>
             <img
-              src={thumb}
+              src={mediaUrl(thumb)}
               alt=""
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
@@ -177,7 +179,7 @@ function StoryCard({ post, onPreview }) {
                 }}
                 className="flex-1 h-12 rounded-lg overflow-hidden border-2 border-white/80 shadow-lg hover:scale-105 transition"
               >
-                <img src={img.url} alt="" className="w-full h-full object-cover" />
+                <img src={mediaUrl(img.url)} alt="" className="w-full h-full object-cover" />
               </button>
             ))}
           </div>
@@ -235,6 +237,11 @@ export default function News() {
 
   return (
     <>
+      <Seo
+        title="News & Stories"
+        description="School news, announcements, and photo stories from C.S Elena Guerra Butare — Catholic school community in Huye, Rwanda."
+        path="/news"
+      />
       <PageHeader
         title="News & Stories"
         subtitle="School events, announcements, and photo stories from our community"

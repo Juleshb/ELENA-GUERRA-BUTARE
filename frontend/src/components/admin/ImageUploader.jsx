@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { ImagePlus, Loader2, Trash2, ChevronUp, ChevronDown } from 'lucide-react';
 import api from '../../api/client';
+import { mediaUrl } from '../../lib/apiConfig';
 import { inputClass } from './FormModal';
 
 export function SingleImageUpload({ value, onChange, label = 'Image' }) {
@@ -36,7 +37,7 @@ export function SingleImageUpload({ value, onChange, label = 'Image' }) {
     <div className="space-y-3">
       {value ? (
         <div className="relative group rounded-xl overflow-hidden border border-slate-200 bg-slate-50">
-          <img src={value} alt={label} className="w-full h-40 object-cover" />
+          <img src={mediaUrl(value)} alt={label} className="w-full h-40 object-cover" />
           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2">
             <button
               type="button"
@@ -168,7 +169,7 @@ export function AttachedImagesEditor({ images, onChange }) {
               key={`${img.url}-${index}`}
               className="relative group rounded-xl overflow-hidden border border-slate-200 bg-white"
             >
-              <img src={img.url} alt="" className="w-full aspect-square object-cover" />
+              <img src={mediaUrl(img.url)} alt="" className="w-full aspect-square object-cover" />
               <div className="p-2 space-y-2">
                 <input
                   className="w-full text-xs border border-slate-200 rounded-lg px-2 py-1.5 focus:outline-none focus:ring-2 focus:ring-rw-blue-500"

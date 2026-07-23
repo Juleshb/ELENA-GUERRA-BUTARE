@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import PageHeader from '../components/ui/PageHeader';
+import Seo from '../components/Seo';
 import { CheckCircle2, ArrowLeft, ArrowRight } from 'lucide-react';
 import RwandaAddressFields from '../components/forms/RwandaAddressFields';
 import { Field, inputClass } from '../components/admin/FormModal';
@@ -106,6 +107,11 @@ export default function ApplyOnline() {
 
   return (
     <>
+      <Seo
+        title="Apply Online"
+        description="Submit your official online application to C.S Elena Guerra Butare — Nursery, Primary, and Ordinary Level admissions."
+        path="/apply"
+      />
       <PageHeader
         title="Application Form"
         subtitle="Official C.S Elena Guerra online application — all fields required as on the paper form"

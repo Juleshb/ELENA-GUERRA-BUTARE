@@ -1,6 +1,7 @@
 import { Newspaper } from 'lucide-react';
 import { ReadMoreLink } from './Button';
 import { IconBox } from './IconBox';
+import { mediaUrl } from '../../lib/apiConfig';
 
 export function FeatureCard({ icon: Icon, title, description, link, linkLabel = 'Read more' }) {
   if (!description) return null;
@@ -28,7 +29,7 @@ export function NewsCard({ post }) {
   return (
     <article className="bg-white rounded-xl border border-slate-200/80 overflow-hidden card-hover flex flex-col h-full">
       {post.coverImage ? (
-        <img src={post.coverImage} alt="" className="h-48 w-full object-cover img-zoom" />
+        <img src={mediaUrl(post.coverImage)} alt="" className="h-48 w-full object-cover img-zoom" />
       ) : (
         <div className="h-48 bg-gradient-to-br from-rw-blue-100 to-rw-green-50 flex items-center justify-center text-rw-blue-300">
           <Newspaper size={48} strokeWidth={1.5} aria-hidden />

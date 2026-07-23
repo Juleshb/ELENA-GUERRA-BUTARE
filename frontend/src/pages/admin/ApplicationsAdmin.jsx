@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import api from '../../api/client';
+import { mediaUrl } from '../../lib/apiConfig';
 import {
   ArrowLeft,
   CheckCircle2,
@@ -141,7 +142,7 @@ function DocLink({ href, label }) {
   if (!href) return null;
   return (
     <a
-      href={href}
+      href={mediaUrl(href)}
       target="_blank"
       rel="noreferrer"
       className="inline-flex items-center gap-2 px-3 py-2 bg-white border border-slate-200 rounded-xl text-sm font-medium text-rw-navy hover:border-rw-blue-300 hover:bg-rw-blue-50/50 transition"

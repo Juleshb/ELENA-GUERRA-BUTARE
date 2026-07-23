@@ -18,6 +18,7 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import { useCrud } from '../../hooks/useCrud';
+import { mediaUrl } from '../../lib/apiConfig';
 import { Field, inputClass } from '../../components/admin/FormModal';
 import { AttachedImagesEditor, SingleImageUpload } from '../../components/admin/ImageUploader';
 import { htmlToStory } from '../../lib/story';
@@ -61,7 +62,7 @@ function StoryCard({ post, onEdit, onDelete, onTogglePublish }) {
     <article className="group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:border-rw-blue-200 hover:shadow-lg transition-all duration-200">
       <div className="relative aspect-[16/10] bg-gradient-to-br from-slate-100 to-slate-200">
         {thumb ? (
-          <img src={thumb} alt="" className="w-full h-full object-cover" />
+          <img src={mediaUrl(thumb)} alt="" className="w-full h-full object-cover" />
         ) : (
           <div className="w-full h-full flex flex-col items-center justify-center text-slate-400">
             <Newspaper size={32} strokeWidth={1.5} />

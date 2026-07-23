@@ -5,6 +5,7 @@ import PageHeader from '../components/ui/PageHeader';
 import { Button } from '../components/ui/Button';
 import { EmptyState } from '../components/ui/Card';
 import { Reveal, RevealGroup } from '../components/ui/Reveal';
+import Seo from '../components/Seo';
 import SectionNav from '../components/admissions/SectionNav';
 import LevelsExplorer from '../components/admissions/LevelsExplorer';
 import FaqAccordion from '../components/admissions/FaqAccordion';
@@ -147,6 +148,11 @@ export default function Admissions() {
 
   return (
     <>
+      <Seo
+        title="Admissions Protocol"
+        description="How to apply to C.S Elena Guerra Butare — study levels, admission steps, documents, registration fees, and FAQs for Nursery, Primary, and Ordinary Level."
+        path="/admissions"
+      />
       <PageHeader
         title="Admissions Protocol"
         subtitle="Explore how to apply — study levels, steps, documents, fees & FAQs"

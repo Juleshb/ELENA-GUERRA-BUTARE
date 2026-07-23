@@ -1,6 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { ChevronLeft, ChevronRight, X, ZoomIn } from 'lucide-react';
+import { mediaUrl } from '../../lib/apiConfig';
 
 export function getPostImages(post) {
   if (!post) return [];
@@ -105,7 +106,7 @@ export default function PhotoLightbox({ images, index, open, onClose, onIndexCha
         )}
 
         <img
-          src={current.url}
+          src={mediaUrl(current.url)}
           alt={current.caption || `Photo ${index + 1}`}
           className="max-h-full max-w-full object-contain rounded-lg shadow-2xl select-none"
           draggable={false}
@@ -147,7 +148,7 @@ export default function PhotoLightbox({ images, index, open, onClose, onIndexCha
                     : 'border-transparent opacity-60 hover:opacity-100'
                 }`}
               >
-                <img src={img.url} alt="" className="w-full h-full object-cover" />
+                <img src={mediaUrl(img.url)} alt="" className="w-full h-full object-cover" />
               </button>
             ))}
           </div>

@@ -4,6 +4,7 @@ import { MapPin, Phone, Mail, Send, CheckCircle2, MessageCircle } from 'lucide-r
 import { useOutletContext } from 'react-router-dom';
 import api from '../api/client';
 import PageHeader from '../components/ui/PageHeader';
+import Seo from '../components/Seo';
 import { IconBox } from '../components/ui/IconBox';
 import { Field, inputClass } from '../components/admin/FormModal';
 import { OtpLogin } from './MyMessages';
@@ -85,6 +86,11 @@ export default function Contact() {
 
   return (
     <>
+      <Seo
+        title="Contact Us"
+        description="Contact C.S Elena Guerra Butare — address, phone, email, and online enquiry form for admissions and school information."
+        path="/contact"
+      />
       <PageHeader
         title="Contact Us"
         subtitle="We are here to answer your questions"

@@ -15,6 +15,7 @@ import {
   HelpCircle,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import Seo from '../Seo';
 
 const links = [
   { to: '/admin', label: 'Dashboard', end: true, icon: LayoutDashboard },
@@ -70,6 +71,7 @@ export default function AdminLayout() {
 
   return (
     <div className="min-h-screen bg-[#f4f7fb]">
+      <Seo title={pageMeta.title} description="School administration portal" noindex path={location.pathname} />
       <aside className="fixed inset-y-0 left-0 z-40 flex h-screen w-[240px] flex-col bg-white border-r border-slate-200/80">
         <div className="p-5 border-b border-slate-100 shrink-0">
           <Link to="/admin" className="flex items-center gap-3 group">

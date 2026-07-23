@@ -1,3 +1,5 @@
+import { mediaUrl } from './apiConfig';
+
 export const DEFAULT_LOGO = '/logo.jpg';
 
 /** Default hero background — replace by setting Hero Video URL in admin or adding /hero.mp4 to public/ */
@@ -10,10 +12,10 @@ export function resolveLogoUrl(logoUrl) {
   if (!logoUrl || LEGACY_LOGO_PATHS.has(logoUrl.trim())) {
     return DEFAULT_LOGO;
   }
-  return logoUrl;
+  return mediaUrl(logoUrl);
 }
 
 export function resolveHeroVideoUrl(videoUrl) {
   if (!videoUrl?.trim()) return DEFAULT_HERO_VIDEO;
-  return videoUrl.trim();
+  return mediaUrl(videoUrl.trim());
 }

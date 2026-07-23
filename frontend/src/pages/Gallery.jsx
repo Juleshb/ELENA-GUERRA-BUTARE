@@ -4,7 +4,9 @@ import api from '../api/client';
 import PageHeader from '../components/ui/PageHeader';
 import { EmptyState } from '../components/ui/Card';
 import { Reveal, RevealGroup } from '../components/ui/Reveal';
+import Seo from '../components/Seo';
 import PhotoLightbox from '../components/news/PhotoLightbox';
+import { mediaUrl } from '../lib/apiConfig';
 
 function toLightboxImages(images) {
   return images.map((img) => ({
@@ -24,7 +26,7 @@ function GalleryCard({ image, onOpen }) {
     >
       <div className="relative overflow-hidden">
         <img
-          src={image.imageUrl}
+          src={mediaUrl(image.imageUrl)}
           alt={label || 'Gallery photo'}
           className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-[1.04]"
           loading="lazy"
@@ -125,6 +127,11 @@ export default function Gallery() {
 
   return (
     <>
+      <Seo
+        title="Photo Gallery"
+        description="Campus life, ceremonies, and memorable moments from C.S Elena Guerra Butare photo gallery."
+        path="/gallery"
+      />
       <PageHeader
         title="Photo Gallery"
         subtitle="Campus life, ceremonies, and memorable moments at C.S Elena Guerra"
